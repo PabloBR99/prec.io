@@ -2,7 +2,6 @@
 
 import { useHaptic } from "@/hooks/useHaptic";
 import { PRICE_MAX } from "@/lib/constants";
-import { useEffect, useRef } from "react";
 
 interface PriceSliderProps {
   readonly value: number;
@@ -10,15 +9,15 @@ interface PriceSliderProps {
   readonly disabled?: boolean;
 }
 
-const EXPONENT = 2.5;
-const INTERNAL_MAX = 1000;
+export const EXPONENT = 2.5;
+export const INTERNAL_MAX = 1000;
 
-function priceToPosition(price: number): number {
+export function priceToPosition(price: number): number {
   const clamped = Math.max(0, Math.min(PRICE_MAX, price));
   return Math.round(Math.pow(clamped / PRICE_MAX, 1 / EXPONENT) * INTERNAL_MAX);
 }
 
-function positionToPrice(position: number): number {
+export function positionToPrice(position: number): number {
   const clamped = Math.max(0, Math.min(INTERNAL_MAX, position));
   const raw = Math.pow(clamped / INTERNAL_MAX, EXPONENT) * PRICE_MAX;
   return Math.round(raw * 100) / 100;
@@ -49,14 +48,8 @@ function getColorAtPercent(pct: number): string {
   return `rgb(${r},${g},${b})`;
 }
 
-function scrollStep(price: number): number {
-  const base = Math.max(0.01, price) * 0.10;
-  return Math.round(base * 100) / 100 || 0.01;
-}
-
 export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
   const triggerHaptic = useHaptic();
-  const containerRef = useRef<HTMLDivElement>(null);
   const position = priceToPosition(value);
   const percentage = (position / INTERNAL_MAX) * 100;
   const thumbColor = getColorAtPercent(percentage);
@@ -67,28 +60,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
     triggerHaptic(10);
   };
 
-  const stateRef = useRef({ value, onChange, disabled, triggerHaptic });
-  stateRef.current = { value, onChange, disabled, triggerHaptic };
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const handler = (e: WheelEvent) => {
-      const { value: price, onChange: cb, disabled: off, triggerHaptic: haptic } = stateRef.current;
-      if (off) return;
-      e.preventDefault();
-      const direction = e.deltaY < 0 ? 1 : -1;
-      const step = scrollStep(price);
-      const newPrice = Math.round(Math.max(0, Math.min(PRICE_MAX, price + direction * step)) * 100) / 100;
-      cb(newPrice);
-      haptic(10);
-    };
-    el.addEventListener("wheel", handler, { passive: false });
-    return () => el.removeEventListener("wheel", handler);
-  }, []);
-
   return (
-    <div className="w-full px-4" ref={containerRef}>
+    <div className="w-full px-4">
       <div className="relative pb-8">
         <input
           type="range"
