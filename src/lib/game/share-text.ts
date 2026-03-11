@@ -23,7 +23,7 @@ export function generateShareText(
     `Precisión: ${accuracy.toFixed(1)}%`,
     `Mejor que el ${Math.round(percentile)}% de jugadores`,
     "",
-    "prec.io",
+    "https://prec-io.vercel.app",
   ].join("\n");
 }
 
