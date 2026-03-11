@@ -7,7 +7,7 @@ interface ConfettiProps {
   readonly visible: boolean;
 }
 
-const COLORS = ["#ffd700", "#e94560", "#0ead69", "#4dabf7", "#f4a261", "#ff6b9d"];
+const COLORS = ["#ffd700", "#D97706", "#F97316", "#F59E0B", "#EF4444", "#FCD34D"];
 const PARTICLE_COUNT = 50;
 
 interface Particle {

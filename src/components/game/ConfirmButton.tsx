@@ -13,16 +13,16 @@ export function ConfirmButton({ onClick, disabled, isLoading }: ConfirmButtonPro
     <motion.button
       onClick={onClick}
       disabled={disabled || isLoading}
-      className="relative w-full rounded-xl bg-accent px-8 py-4 text-lg font-bold text-white shadow-lg shadow-accent/25 transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none sm:w-auto sm:min-w-[200px]"
-      whileHover={!disabled ? { scale: 1.02 } : undefined}
+      className="relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-[#B45309] via-accent to-[#F97316] px-8 py-4 font-[family-name:var(--font-space-grotesk)] text-lg font-bold tracking-wide text-white shadow-lg shadow-accent/30 transition-all hover:shadow-xl hover:shadow-accent/40 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none sm:w-auto sm:min-w-[200px]"
+      whileHover={!disabled ? { scale: 1.03 } : undefined}
       whileTap={!disabled ? { scale: 0.97 } : undefined}
       animate={
         !disabled && !isLoading
           ? {
               boxShadow: [
-                "0 4px 14px rgba(233, 69, 96, 0.25)",
-                "0 4px 20px rgba(233, 69, 96, 0.4)",
-                "0 4px 14px rgba(233, 69, 96, 0.25)",
+                "0 4px 14px rgba(217, 119, 6, 0.3)",
+                "0 8px 28px rgba(217, 119, 6, 0.5)",
+                "0 4px 14px rgba(217, 119, 6, 0.3)",
               ],
             }
           : undefined

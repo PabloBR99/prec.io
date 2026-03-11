@@ -59,7 +59,7 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
       {phase === "playing" && (
         <>
           <div className="w-full max-w-md">
-            <p className="mb-4 text-center text-sm text-foreground/50">
+            <p className="mb-4 text-center font-[family-name:var(--font-space-grotesk)] text-base font-medium text-foreground/50">
               ¿Cuánto crees que cuesta?
             </p>
             <GuessForm onSubmit={handleGuess} isSubmitting={isSubmitting} />

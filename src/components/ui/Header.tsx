@@ -7,14 +7,9 @@ export function Header() {
 
   return (
     <header className="flex items-center justify-between px-4 py-3 sm:px-6">
-      <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold tracking-tight text-foreground">
-          prec
-        </span>
-        <span className="text-2xl font-bold tracking-tight text-accent">
-          .io
-        </span>
-      </div>
+      <span className="bg-gradient-to-r from-[#92400E] via-accent to-[#F97316] bg-clip-text font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tracking-tight text-transparent dark:from-[#FCD34D] dark:via-accent dark:to-[#FB923C]">
+        prec.io
+      </span>
       <button
         onClick={toggleTheme}
         className="rounded-full p-2 text-foreground/60 transition-colors hover:bg-foreground/5 hover:text-foreground"

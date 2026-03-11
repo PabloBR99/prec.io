@@ -34,7 +34,7 @@ export function PercentileDisplay({ percentile, visible }: PercentileDisplayProp
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className="text-center"
     >
-      <p className="text-3xl font-bold text-accent sm:text-4xl">
+      <p className="font-[family-name:var(--font-space-grotesk)] text-3xl font-bold text-accent sm:text-4xl">
         {display}%
       </p>
       <p className="mt-1 text-sm text-foreground/60 sm:text-base">

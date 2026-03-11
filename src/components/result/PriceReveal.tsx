@@ -40,7 +40,7 @@ export function PriceReveal({ realPrice, visible }: PriceRevealProps) {
       className="text-center"
     >
       <p className="text-sm font-medium text-foreground/60">Precio real</p>
-      <p className="mt-1 text-3xl font-bold tabular-nums text-foreground sm:text-4xl">
+      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-3xl font-bold tabular-nums text-foreground sm:text-4xl">
         {display}
       </p>
     </motion.div>

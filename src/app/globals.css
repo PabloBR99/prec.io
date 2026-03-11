@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
+/*
+ * OKLCH-based palette — Amber/Gold
+ * Accent: oklch(0.75 0.16 75) → #D97706
+ * Warm palette: amber → orange → rose
+ */
+
 :root {
-  --background: #f8f9fa;
-  --foreground: #1a1a2e;
-  --color-accent: #e94560;
-  --color-surface: #ffffff;
-  --color-foreground-10: rgba(26, 26, 46, 0.1);
+  --background: #FFFBF5;
+  --foreground: #2D1F0E;
+  --color-accent: #D97706;
+  --color-surface: #FFFFFF;
+  --color-foreground-10: rgba(45, 31, 14, 0.1);
 }
 
 .dark {
-  --background: #0f0f1a;
-  --foreground: #e8e8f0;
-  --color-accent: #e94560;
-  --color-surface: #1a1a2e;
-  --color-foreground-10: rgba(232, 232, 240, 0.1);
+  --background: #1C1914;
+  --foreground: #F5EFE6;
+  --color-accent: #F59E0B;
+  --color-surface: #2A2520;
+  --color-foreground-10: rgba(245, 239, 230, 0.1);
 }
 
 @theme inline {
@@ -29,21 +35,26 @@ body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: radial-gradient(circle, rgba(217, 119, 6, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* Remove default focus outlines and add custom ones */
+.dark body,
+.dark {
+  background-image: radial-gradient(circle, rgba(245, 158, 11, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 *:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-/* Selection color */
 ::selection {
-  background: rgba(233, 69, 96, 0.2);
+  background: rgba(217, 119, 6, 0.2);
   color: inherit;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -53,10 +64,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(128, 128, 128, 0.3);
+  background: rgba(217, 119, 6, 0.2);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(128, 128, 128, 0.5);
+  background: rgba(217, 119, 6, 0.4);
 }

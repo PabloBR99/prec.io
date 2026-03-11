@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative h-44 w-44 overflow-hidden rounded-2xl bg-white shadow-sm sm:h-52 sm:w-52">
+      <div className="relative h-44 w-44 overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-foreground/[0.06] sm:h-52 sm:w-52">
         <Image
           src={product.imagen_url}
           alt={product.nombre}
@@ -27,14 +27,14 @@ export function ProductCard({ product }: ProductCardProps) {
         />
       </div>
       <div className="text-center">
-        <h1 className="text-xl font-bold text-foreground sm:text-2xl">
+        <h1 className="font-[family-name:var(--font-space-grotesk)] text-xl font-bold text-foreground sm:text-2xl">
           {product.nombre}
         </h1>
         {product.cantidad && (
-          <p className="mt-1 text-sm text-foreground/60">{product.cantidad}</p>
+          <p className="mt-1 text-sm text-foreground/50">{product.cantidad}</p>
         )}
         {product.categoria && (
-          <span className="mt-2 inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+          <span className="mt-2 inline-block rounded-full bg-gradient-to-r from-accent/15 to-[#F97316]/15 px-3.5 py-1 text-xs font-semibold text-accent">
             {product.categoria}
           </span>
         )}
@@ -42,3 +42,4 @@ export function ProductCard({ product }: ProductCardProps) {
     </div>
   );
 }
+

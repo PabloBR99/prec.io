@@ -20,8 +20,8 @@ export const ERROR_COLORS = {
 } as const;
 
 export const BRAND_COLORS = {
-  primary: "#1a1a2e",
-  accent: "#e94560",
-  surface: "#16213e",
-  surfaceLight: "#f8f9fa",
+  primary: "#2D1F0E",
+  accent: "#D97706",
+  surface: "#2A2520",
+  surfaceLight: "#FFFBF5",
 } as const;

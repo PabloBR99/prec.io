@@ -7,6 +7,21 @@ interface CountdownProps {
   readonly visible: boolean;
 }
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 10, scale: 0.9 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
 export function Countdown({ visible }: CountdownProps) {
   const { hours, minutes, seconds } = useCountdown();
 
@@ -14,34 +29,65 @@ export function Countdown({ visible }: CountdownProps) {
 
   const pad = (n: number) => n.toString().padStart(2, "0");
   const segments = [
-    { value: pad(hours), label: "h" },
-    { value: pad(minutes), label: "m" },
-    { value: pad(seconds), label: "s" },
+    { value: pad(hours), label: "horas" },
+    { value: pad(minutes), label: "min" },
+    { value: pad(seconds), label: "seg" },
   ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="flex items-center gap-2 rounded-full bg-foreground/5 px-5 py-2.5"
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col items-center gap-3"
     >
-      <span className="text-xs font-medium text-foreground/40">
-        Siguiente producto en
-      </span>
-      <div className="flex items-baseline gap-1">
+      <motion.div
+        variants={item}
+        className="flex items-center gap-1.5 text-foreground/50"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        <span className="text-xs font-medium tracking-wide uppercase">
+          Siguiente producto en
+        </span>
+      </motion.div>
+
+      <div className="flex items-start gap-2">
         {segments.map((seg, i) => (
-          <span key={i} className="flex items-baseline">
+          <div key={seg.label} className="flex items-start gap-2">
             {i > 0 && (
-              <span className="mx-0.5 text-foreground/20">:</span>
+              <motion.span
+                variants={item}
+                className="mt-2 text-lg font-light text-foreground/15"
+              >
+                :
+              </motion.span>
             )}
-            <span className="text-sm font-bold tabular-nums text-foreground">
-              {seg.value}
-            </span>
-            <span className="text-[10px] font-medium text-foreground/30">
-              {seg.label}
-            </span>
-          </span>
+            <motion.div
+              variants={item}
+              className="flex flex-col items-center gap-1"
+            >
+              <div className="flex min-w-[3.25rem] items-center justify-center rounded-xl bg-foreground/[0.03] px-3 py-2 ring-1 ring-foreground/[0.06]">
+                <span className="text-xl font-bold tabular-nums text-foreground">
+                  {seg.value}
+                </span>
+              </div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/50">
+                {seg.label}
+              </span>
+            </motion.div>
+          </div>
         ))}
       </div>
     </motion.div>

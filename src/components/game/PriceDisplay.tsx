@@ -24,7 +24,7 @@ export function PriceDisplay({ value }: PriceDisplayProps) {
 
   return (
     <div className="text-center">
-      <span className="text-5xl font-bold tabular-nums text-foreground sm:text-6xl">
+      <span className="bg-gradient-to-br from-foreground via-foreground to-accent/60 bg-clip-text font-[family-name:var(--font-space-grotesk)] text-5xl font-bold tabular-nums text-transparent sm:text-6xl">
         {display}
       </span>
     </div>
