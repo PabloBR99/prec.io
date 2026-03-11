@@ -45,7 +45,7 @@ export function PriceReveal({ realPrice, createdAt, visible }: PriceRevealProps)
       className="text-center"
     >
       <p className="text-xs font-semibold uppercase tracking-wider text-foreground/50">Precio real</p>
-      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tabular-nums text-foreground sm:text-3xl">
+      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tabular-nums text-amber-500 sm:text-3xl">
         {display}
       </p>
       <p className="mt-1 text-[11px] text-foreground/35">{formattedDate}</p>

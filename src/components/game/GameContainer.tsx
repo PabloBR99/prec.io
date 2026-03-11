@@ -64,7 +64,7 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-3">
+    <div className="flex w-full flex-col items-center gap-6">
       <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1} className="w-[94%] px-2">
         <ProductCard product={product} />
       </motion.div>
