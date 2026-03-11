@@ -78,7 +78,7 @@ export function Countdown({ visible }: CountdownProps) {
               variants={item}
               className="flex flex-col items-center gap-1"
             >
-              <div className="flex min-w-[3.25rem] items-center justify-center rounded-xl bg-foreground/[0.03] px-3 py-2 ring-1 ring-foreground/[0.06]">
+              <div className="flex min-w-[3.25rem] items-center justify-center rounded-xl bg-surface px-3 py-2 shadow-sm ring-1 ring-foreground/[0.06]">
                 <span className="text-xl font-bold tabular-nums text-foreground">
                   {seg.value}
                 </span>

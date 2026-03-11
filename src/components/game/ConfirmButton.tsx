@@ -13,7 +13,7 @@ export function ConfirmButton({ onClick, disabled, isLoading }: ConfirmButtonPro
     <motion.button
       onClick={onClick}
       disabled={disabled || isLoading}
-      className="relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-[#B45309] via-accent to-[#F97316] px-8 py-4 font-[family-name:var(--font-space-grotesk)] text-lg font-bold tracking-wide text-white shadow-lg shadow-accent/30 transition-all hover:shadow-xl hover:shadow-accent/40 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none sm:w-auto sm:min-w-[200px]"
+      className="relative w-full overflow-hidden rounded-2xl px-8 py-4 font-[family-name:var(--font-space-grotesk)] text-lg font-bold tracking-wide transition-all disabled:cursor-not-allowed enabled:bg-gradient-to-r enabled:from-[#B45309] enabled:via-accent enabled:to-[#F97316] enabled:text-white enabled:shadow-lg enabled:shadow-accent/30 enabled:hover:shadow-xl enabled:hover:shadow-accent/40 disabled:border-2 disabled:border-dashed disabled:border-accent/20 disabled:bg-accent/[0.04] disabled:text-accent/40"
       whileHover={!disabled ? { scale: 1.03 } : undefined}
       whileTap={!disabled ? { scale: 0.97 } : undefined}
       animate={

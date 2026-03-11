@@ -53,7 +53,7 @@ export function GuessForm({ onSubmit, isSubmitting }: GuessFormProps) {
       <PriceDisplay value={price} />
       <PriceSlider value={price} onChange={handleChange} disabled={isSubmitting} />
       <div className="flex items-center gap-2">
-        <span className="text-sm text-foreground/40">o escribe:</span>
+        <span className="text-sm font-medium text-foreground/50">o escribe:</span>
         <PriceInput value={price} onChange={handleChange} disabled={isSubmitting} />
       </div>
       <ConfirmButton

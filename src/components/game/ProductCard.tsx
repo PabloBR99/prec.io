@@ -13,12 +13,12 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative h-44 w-44 overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-foreground/[0.06] sm:h-52 sm:w-52">
+      <div className="relative h-34 w-40 overflow-hidden rounded-2xl bg-white shadow-lg shadow-foreground/[0.08] ring-1 ring-foreground/[0.06] sm:h-38 sm:w-44">
         <Image
           src={product.imagen_url}
           alt={product.nombre}
           fill
-          sizes="256px"
+          sizes="176px"
           priority
           className={`object-contain p-2 transition-all duration-700 ease-out ${
             imageLoaded ? "scale-100 blur-0 opacity-100" : "scale-105 blur-md opacity-0"

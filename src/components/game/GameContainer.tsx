@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useGameState } from "@/hooks/useGameState";
 import { ProductCard } from "./ProductCard";
 import { GuessForm } from "./GuessForm";
@@ -8,6 +9,16 @@ import { ResultContainer } from "@/components/result/ResultContainer";
 import { DevToolbar } from "@/components/dev/DevToolbar";
 import { getGameDate } from "@/lib/game/date-utils";
 import type { Product } from "@/types/game";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 24, filter: "blur(10px)" },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
 
 const IS_DEV = process.env.NODE_ENV === "development";
 
@@ -53,17 +64,23 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-8">
-      <ProductCard product={product} />
+    <div className="flex w-full flex-col items-center gap-5">
+      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1}>
+        <ProductCard product={product} />
+      </motion.div>
 
       {phase === "playing" && (
         <>
-          <div className="w-full max-w-md">
-            <p className="mb-4 text-center font-[family-name:var(--font-space-grotesk)] text-base font-medium text-foreground/50">
-              ¿Cuánto crees que cuesta?
+          <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.3} className="flex w-full items-center gap-3">
+            <div className="h-px flex-1 bg-foreground/[0.08]" />
+            <p className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
+              ¿Cuánto cuesta?
             </p>
+            <div className="h-px flex-1 bg-foreground/[0.08]" />
+          </motion.div>
+          <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.45} className="w-full max-w-md">
             <GuessForm onSubmit={handleGuess} isSubmitting={isSubmitting} />
-          </div>
+          </motion.div>
           {error && (
             <p className="text-sm text-red-500">{error}</p>
           )}

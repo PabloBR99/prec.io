@@ -61,7 +61,7 @@ export function PriceInput({ value, onChange, disabled }: PriceInputProps) {
         onBlur={handleBlur}
         onFocus={handleFocus}
         disabled={disabled}
-        className="w-24 rounded-lg border border-foreground/10 bg-transparent px-3 py-2 text-center text-lg font-semibold text-foreground outline-none transition-colors focus:border-accent"
+        className="w-24 rounded-lg border border-foreground/[0.08] bg-surface px-3 py-2 text-center text-lg font-semibold text-foreground shadow-sm outline-none transition-all focus:border-accent focus:shadow-md focus:shadow-accent/10"
         aria-label="Introduce el precio manualmente"
       />
       <span className="text-lg font-semibold text-foreground/60">&euro;</span>

@@ -5,7 +5,7 @@ import { useAnimationSequence } from "@/hooks/useAnimationSequence";
 import { fetchPercentile } from "@/lib/api/client";
 import { PriceReveal } from "./PriceReveal";
 import { Confetti } from "./Confetti";
-import { ErrorGauge } from "./ErrorGauge";
+import { BellCurve } from "./BellCurve";
 import { ErrorSummary } from "./ErrorSummary";
 import { PercentileDisplay } from "./PercentileDisplay";
 import { ShareButton } from "./ShareButton";
@@ -37,29 +37,40 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
   const isPerfect = result.errorPct === 0;
 
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+    <div className="flex w-full flex-col items-center gap-5">
       {isPerfect && <Confetti visible={step >= 1} />}
-      <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-start md:justify-center md:gap-12">
-        <div className="flex flex-col items-center gap-4 md:flex-1">
-          <PriceReveal realPrice={result.realPrice} visible={step >= 0} />
-          <ErrorGauge
-            errorPct={result.errorPct}
-            visible={step >= 1}
-          />
+
+      {/* Unified results card */}
+      <div className="w-full overflow-hidden rounded-2xl bg-surface/80 shadow-sm ring-1 ring-foreground/[0.06] backdrop-blur-sm">
+        {/* Top row: Price + Error — split with vertical divider */}
+        <div className="grid grid-cols-2 divide-x divide-foreground/[0.08]">
+          <div className="flex items-center justify-center px-4 py-5">
+            <PriceReveal realPrice={result.realPrice} visible={step >= 0} />
+          </div>
+          <div className="flex items-center justify-center px-4 py-5">
+            <ErrorSummary
+              guess={result.guess}
+              errorPct={result.errorPct}
+              errorLevel={result.errorLevel}
+              visible={step >= 2}
+            />
+          </div>
         </div>
-        <div className="flex flex-col items-center gap-6 md:flex-1">
-          <ErrorSummary
-            guess={result.guess}
-            realPrice={result.realPrice}
-            errorAbs={result.errorAbs}
-            errorPct={result.errorPct}
-            errorLevel={result.errorLevel}
-            visible={step >= 2}
-          />
+        {/* Horizontal divider */}
+        <div className="h-px bg-foreground/[0.08]" />
+        {/* Bell curve + Percentile — unified block with subtle tint */}
+        <div className="flex flex-col items-center gap-1 bg-foreground/[0.015] px-4 pb-5 pt-2">
+          <BellCurve percentile={percentile} visible={step >= 1} />
           <PercentileDisplay percentile={percentile} visible={step >= 3} />
         </div>
       </div>
-      <div className="mt-4" />
+
+      {/* Separator before share section */}
+      <div className="flex w-full items-center gap-3">
+        <div className="h-px flex-1 bg-foreground/[0.08]" />
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">Comparte</span>
+        <div className="h-px flex-1 bg-foreground/[0.08]" />
+      </div>
       <ShareButton
         date={date}
         errorPct={result.errorPct}

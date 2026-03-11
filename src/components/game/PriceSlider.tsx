@@ -84,8 +84,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
                 className="absolute flex flex-col items-center"
                 style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
               >
-                <div className="h-2 w-px bg-foreground/20" />
-                <span className="mt-1 text-[10px] text-foreground/40">
+                <div className="h-2.5 w-px bg-foreground/25" />
+                <span className="mt-1 text-[10px] font-medium text-foreground/50">
                   {euro}€
                 </span>
               </div>

@@ -39,8 +39,8 @@ export function PriceReveal({ realPrice, visible }: PriceRevealProps) {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="text-center"
     >
-      <p className="text-sm font-medium text-foreground/60">Precio real</p>
-      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-3xl font-bold tabular-nums text-foreground sm:text-4xl">
+      <p className="text-xs font-semibold uppercase tracking-wider text-foreground/50">Precio real</p>
+      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tabular-nums text-foreground sm:text-3xl">
         {display}
       </p>
     </motion.div>

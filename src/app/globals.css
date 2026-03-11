@@ -37,14 +37,35 @@ body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: radial-gradient(circle, rgba(217, 119, 6, 0.04) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-image: radial-gradient(circle, rgba(217, 119, 6, 0.13) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
 }
 
 .dark body,
 .dark {
-  background-image: radial-gradient(circle, rgba(245, 158, 11, 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-image: radial-gradient(circle, rgba(245, 158, 11, 0.14) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* Slider track glow */
+.slider-input {
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.08));
+}
+
+/* € watermark floating animations */
+@keyframes euro-drift-1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes euro-drift-2 {
+  0%, 100% { transform: translateY(0) rotate(-12deg); }
+  50% { transform: translateY(10px) rotate(-16deg); }
+}
+
+@keyframes euro-drift-3 {
+  0%, 100% { transform: translateY(0) rotate(8deg); }
+  50% { transform: translateY(-10px) rotate(11deg); }
 }
 
 *:focus-visible {
