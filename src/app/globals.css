@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * OKLCH-based palette — Amber/Gold
  * Accent: oklch(0.75 0.16 75) → #D97706

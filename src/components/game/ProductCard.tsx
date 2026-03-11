@@ -25,6 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
           }`}
           onLoad={() => setImageLoaded(true)}
         />
+        <div className="pointer-events-none absolute inset-0 hidden bg-black/5 dark:block" />
       </div>
       <div className="text-center">
         <h1 className="font-[family-name:var(--font-space-grotesk)] text-xl font-bold text-foreground sm:text-2xl">
