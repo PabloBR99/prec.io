@@ -41,53 +41,64 @@ function saveState(state: StoredGameState): void {
 }
 
 interface UseGameStateOptions {
+  readonly serverProduct?: Product;
   readonly dateOverride?: string;
   readonly devMode?: boolean;
 }
 
 export function useGameState(options: UseGameStateOptions = {}) {
-  const { dateOverride, devMode = false } = options;
+  const { serverProduct, dateOverride, devMode = false } = options;
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
-  const [product, setProduct] = useState<Product | null>(null);
+  const currentDate = dateOverride ?? getGameDate();
+
+  const [phase, setPhase] = useState<GamePhase>(() => {
+    if (serverProduct && !devMode) return "playing";
+    return "loading";
+  });
+  const [product, setProduct] = useState<Product | null>(serverProduct ?? null);
   const [result, setResult] = useState<GameResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const currentDate = dateOverride ?? getGameDate();
-
+  // Check localStorage for stored result (production) or fetch product (dev)
   useEffect(() => {
-    setPhase("loading");
-    setProduct(null);
-    setResult(null);
-    setError(null);
+    if (devMode) {
+      // Dev mode: always fetch by date
+      setPhase("loading");
+      setProduct(null);
+      setResult(null);
+      setError(null);
 
-    const stored = devMode ? null : loadStoredState(currentDate);
+      fetchTodayProduct(currentDate)
+        .then((p) => {
+          setProduct(p);
+          setPhase("playing");
+        })
+        .catch(() => {
+          setError("No se pudo cargar el producto");
+        });
+      return;
+    }
 
+    // Production: check stored state
+    const stored = loadStoredState(currentDate);
     if (stored) {
       setResult(stored.result);
       setPhase("completed");
     }
 
-    fetchTodayProduct(devMode ? currentDate : undefined)
-      .then((p) => {
-        let done = false;
-        const show = () => {
-          if (done) return;
-          done = true;
+    // If no server product, fetch client-side as fallback
+    if (!serverProduct) {
+      fetchTodayProduct()
+        .then((p) => {
           setProduct(p);
           if (!stored) setPhase("playing");
-        };
-        const img = new window.Image();
-        img.onload = show;
-        img.onerror = show;
-        img.src = p.imagen_url;
-        setTimeout(show, 5000);
-      })
-      .catch(() => {
-        setError("No se pudo cargar el producto");
-      });
-  }, [currentDate, devMode]);
+        })
+        .catch(() => {
+          setError("No se pudo cargar el producto de hoy");
+        });
+    }
+  }, [currentDate, devMode, serverProduct]);
 
   const handleGuess = useCallback(
     async (guess: number) => {

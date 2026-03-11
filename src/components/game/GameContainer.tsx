@@ -7,14 +7,23 @@ import { GuessForm } from "./GuessForm";
 import { ResultContainer } from "@/components/result/ResultContainer";
 import { DevToolbar } from "@/components/dev/DevToolbar";
 import { getGameDate } from "@/lib/game/date-utils";
+import type { Product } from "@/types/game";
 
 const IS_DEV = process.env.NODE_ENV === "development";
 
-export function GameContainer() {
+interface GameContainerProps {
+  readonly serverProduct: Product | null;
+}
+
+export function GameContainer({ serverProduct }: GameContainerProps) {
   const [devDate, setDevDate] = useState(getGameDate());
 
   const { phase, product, result, error, isSubmitting, handleGuess } =
-    useGameState(IS_DEV ? { dateOverride: devDate, devMode: true } : {});
+    useGameState(
+      IS_DEV
+        ? { dateOverride: devDate, devMode: true }
+        : { serverProduct: serverProduct ?? undefined }
+    );
 
   const currentDate = IS_DEV ? devDate : getGameDate();
 
