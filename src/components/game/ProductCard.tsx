@@ -35,7 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-2xl px-5 pb-12 pt-9"
+      className="relative w-full overflow-hidden rounded-2xl px-5 pb-10 pt-7"
       style={{
         background: "linear-gradient(145deg, #F97316 0%, #EA580C 100%)",
         boxShadow:
@@ -53,9 +53,9 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative flex items-center gap-2.5 sm:gap-[58px]">
         {/* Product image — printed on card */}
         <div className="relative ml-4 shrink-0 sm:ml-6">
-          <div className="relative h-[88px] w-[88px] overflow-hidden rounded-lg sm:h-[114px] sm:w-[114px]">
+          <div className="relative h-[92px] w-[92px] overflow-hidden rounded-sm sm:h-[120px] sm:w-[120px]">
             {/* White base so product is visible */}
-            <div className="absolute inset-0 rounded-lg bg-white/90" />
+            <div className="absolute inset-0 rounded-sm bg-white/90" />
             <Image
               src={product.imagen_url}
               alt={product.nombre}
