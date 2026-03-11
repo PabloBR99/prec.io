@@ -45,7 +45,7 @@ export default async function Home() {
         <div className="absolute -right-20 bottom-[15%] h-[350px] w-[350px] rounded-full bg-[#F97316]/[0.08] blur-[80px]" />
       </div>
       <Header />
-      <main className="relative flex flex-1 flex-col items-center justify-center px-4 pb-12">
+      <main className="relative flex flex-1 flex-col items-center px-4 pb-12 pt-4 sm:pt-10">
         <GameContainer serverProduct={product} />
       </main>
       <footer className="relative py-3 text-center text-[11px] text-foreground/30">
