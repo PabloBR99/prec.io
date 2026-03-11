@@ -1,6 +1,6 @@
 # prec.io
 
-Es el código fuente de [prec.io](https://prec-io.vercel.app) — juego diario de estimación de precios de supermercado.
+Código fuente de [prec.io](https://prec-io.vercel.app) — juego diario de estimación de precios de supermercado.
 
 ## Desarrollo local
 
