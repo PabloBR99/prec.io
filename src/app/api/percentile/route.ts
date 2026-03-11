@@ -20,7 +20,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const today = getGameDate();
+  const dateParam = request.nextUrl.searchParams.get("date");
+  const isDev = process.env.NODE_ENV === "development";
+  const today = isDev && dateParam ? dateParam : getGameDate();
   const supabase = createServiceClient();
 
   const { count: totalCount } = await supabase

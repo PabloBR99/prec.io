@@ -62,12 +62,13 @@ export async function POST(request: NextRequest) {
       }
 
       const { errorAbs, errorPct } = calculateError(guess, product.precio);
+      const percentile = await calculatePercentile(supabase, today, errorPct);
 
       return NextResponse.json({
         realPrice: product.precio,
         errorAbs,
         errorPct,
-        percentile: 0,
+        percentile,
       });
     }
 

@@ -26,13 +26,13 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
 
   useEffect(() => {
     const poll = () => {
-      fetchPercentile(result.errorPct).then(setPercentile).catch(() => {});
+      fetchPercentile(result.errorPct, date).then(setPercentile).catch(() => {});
     };
 
     poll();
     const id = setInterval(poll, POLL_INTERVAL);
     return () => clearInterval(id);
-  }, [result.errorPct]);
+  }, [result.errorPct, date]);
 
   const isPerfect = result.errorPct === 0;
 

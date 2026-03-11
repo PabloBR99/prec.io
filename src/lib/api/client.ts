@@ -16,8 +16,10 @@ export async function fetchDevDates(): Promise<string[]> {
   return data.dates ?? [];
 }
 
-export async function fetchPercentile(errorPct: number): Promise<number> {
-  const res = await fetch(`/api/percentile?errorPct=${errorPct}`);
+export async function fetchPercentile(errorPct: number, date?: string): Promise<number> {
+  const params = new URLSearchParams({ errorPct: String(errorPct) });
+  if (date) params.set("date", date);
+  const res = await fetch(`/api/percentile?${params}`);
   if (!res.ok) return 0;
   const data = await res.json();
   return data.percentile ?? 0;
