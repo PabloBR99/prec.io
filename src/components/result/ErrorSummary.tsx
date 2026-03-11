@@ -24,6 +24,7 @@ export function ErrorSummary({
   if (!visible) return null;
 
   const color = ERROR_COLORS[errorLevel];
+  const isPerfect = errorLevel === "perfect";
 
   const accuracy = Math.max(0, 100 - errorPct);
 
@@ -32,13 +33,24 @@ export function ErrorSummary({
     { label: "Precio real", value: formatEuro(realPrice) },
     {
       label: "Precisión",
-      value: `${accuracy.toFixed(1)}%`,
+      value: isPerfect ? "EXACTO!" : `${accuracy.toFixed(1)}%`,
       highlight: true,
     },
   ];
 
   return (
     <div className="flex flex-col gap-2">
+      {isPerfect && (
+        <motion.p
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 150, damping: 10 }}
+          className="text-center text-2xl font-bold sm:text-3xl"
+          style={{ color: ERROR_COLORS.perfect }}
+        >
+          Precio exacto!
+        </motion.p>
+      )}
       {lines.map((line, i) => (
         <motion.div
           key={line.label}

@@ -16,6 +16,7 @@ export function calculateError(
 }
 
 export function getErrorLevel(errorPct: number): ErrorLevel {
+  if (errorPct === 0) return "perfect";
   if (errorPct < ERROR_THRESHOLD_GOOD) return "excellent";
   if (errorPct < ERROR_THRESHOLD_OK) return "good";
   return "poor";

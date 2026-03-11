@@ -1,14 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import { useGameState } from "@/hooks/useGameState";
 import { ProductCard } from "./ProductCard";
 import { GuessForm } from "./GuessForm";
 import { ResultContainer } from "@/components/result/ResultContainer";
+import { DevToolbar } from "@/components/dev/DevToolbar";
 import { getGameDate } from "@/lib/game/date-utils";
 
+const IS_DEV = process.env.NODE_ENV === "development";
+
 export function GameContainer() {
+  const [devDate, setDevDate] = useState(getGameDate());
+
   const { phase, product, result, error, isSubmitting, handleGuess } =
-    useGameState();
+    useGameState(IS_DEV ? { dateOverride: devDate, devMode: true } : {});
+
+  const currentDate = IS_DEV ? devDate : getGameDate();
 
   if (error && !product) {
     return (
@@ -26,9 +34,12 @@ export function GameContainer() {
 
   if (phase === "loading" || !product) {
     return (
-      <div className="flex items-center justify-center py-16">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-      </div>
+      <>
+        <div className="flex items-center justify-center py-16">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+        </div>
+        {IS_DEV && <DevToolbar currentDate={devDate} onDateChange={setDevDate} />}
+      </>
     );
   }
 
@@ -51,8 +62,10 @@ export function GameContainer() {
       )}
 
       {phase === "completed" && result && (
-        <ResultContainer result={result} date={getGameDate()} />
+        <ResultContainer result={result} date={currentDate} />
       )}
+
+      {IS_DEV && <DevToolbar currentDate={devDate} onDateChange={setDevDate} />}
     </div>
   );
 }

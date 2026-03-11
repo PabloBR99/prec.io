@@ -40,39 +40,54 @@ function saveState(state: StoredGameState): void {
   }
 }
 
-export function useGameState() {
+interface UseGameStateOptions {
+  readonly dateOverride?: string;
+  readonly devMode?: boolean;
+}
+
+export function useGameState(options: UseGameStateOptions = {}) {
+  const { dateOverride, devMode = false } = options;
+
   const [phase, setPhase] = useState<GamePhase>("loading");
   const [product, setProduct] = useState<Product | null>(null);
   const [result, setResult] = useState<GameResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const currentDate = dateOverride ?? getGameDate();
+
   useEffect(() => {
-    const date = getGameDate();
-    const stored = loadStoredState(date);
+    setPhase("loading");
+    setProduct(null);
+    setResult(null);
+    setError(null);
+
+    const stored = devMode ? null : loadStoredState(currentDate);
 
     if (stored) {
       setResult(stored.result);
       setPhase("completed");
     }
 
-    fetchTodayProduct()
+    fetchTodayProduct(devMode ? currentDate : undefined)
       .then((p) => {
+        let done = false;
+        const show = () => {
+          if (done) return;
+          done = true;
+          setProduct(p);
+          if (!stored) setPhase("playing");
+        };
         const img = new window.Image();
+        img.onload = show;
+        img.onerror = show;
         img.src = p.imagen_url;
-        img.onload = () => {
-          setProduct(p);
-          if (!stored) setPhase("playing");
-        };
-        img.onerror = () => {
-          setProduct(p);
-          if (!stored) setPhase("playing");
-        };
+        setTimeout(show, 5000);
       })
       .catch(() => {
-        setError("No se pudo cargar el producto de hoy");
+        setError("No se pudo cargar el producto");
       });
-  }, []);
+  }, [currentDate, devMode]);
 
   const handleGuess = useCallback(
     async (guess: number) => {
@@ -82,9 +97,12 @@ export function useGameState() {
       setError(null);
 
       try {
-        const date = getGameDate();
         const sessionId = getSessionId();
-        const response = await submitGuess({ date, guess, sessionId });
+        const response = await submitGuess({
+          date: currentDate,
+          guess,
+          sessionId,
+        });
 
         const gameResult: GameResult = {
           realPrice: response.realPrice,
@@ -98,7 +116,9 @@ export function useGameState() {
         setResult(gameResult);
         setPhase("completed");
 
-        saveState({ date, guess, result: gameResult });
+        if (!devMode) {
+          saveState({ date: currentDate, guess, result: gameResult });
+        }
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Error al enviar tu estimación"
@@ -107,7 +127,7 @@ export function useGameState() {
         setIsSubmitting(false);
       }
     },
-    [product, isSubmitting]
+    [product, isSubmitting, currentDate, devMode]
   );
 
   return { phase, product, result, error, isSubmitting, handleGuess } as const;

@@ -1,11 +1,19 @@
 import type { ProductResponse, GuessResponse, GuessRequest } from "@/types/api";
 
-export async function fetchTodayProduct(): Promise<ProductResponse> {
-  const res = await fetch("/api/product/today");
+export async function fetchTodayProduct(date?: string): Promise<ProductResponse> {
+  const url = date ? `/api/product/today?date=${date}` : "/api/product/today";
+  const res = await fetch(url);
   if (!res.ok) {
-    throw new Error("No se pudo cargar el producto de hoy");
+    throw new Error("No se pudo cargar el producto");
   }
   return res.json();
+}
+
+export async function fetchDevDates(): Promise<string[]> {
+  const res = await fetch("/api/dev/dates");
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.dates ?? [];
 }
 
 export async function fetchPercentile(errorPct: number): Promise<number> {

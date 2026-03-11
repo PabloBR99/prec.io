@@ -33,13 +33,42 @@ export async function POST(request: NextRequest) {
     }
 
     const { date, guess, sessionId } = parsed.data;
-    const today = getGameDate();
+    const isDev = process.env.NODE_ENV === "development";
+    const today = isDev ? date : getGameDate();
 
-    if (date !== today) {
+    if (!isDev && date !== today) {
       return NextResponse.json(
         { error: "Solo puedes jugar el producto de hoy" },
         { status: 400 }
       );
+    }
+
+    const supabase = createServiceClient();
+
+    if (isDev) {
+      // Dev mode: no rate limit, no duplicate check, no DB write
+      const { data: product, error: productError } = await supabase
+        .from("products")
+        .select("id, precio")
+        .eq("fecha_asignada", today)
+        .eq("activo", true)
+        .single();
+
+      if (productError || !product) {
+        return NextResponse.json(
+          { error: "No hay producto disponible para esta fecha" },
+          { status: 404 }
+        );
+      }
+
+      const { errorAbs, errorPct } = calculateError(guess, product.precio);
+
+      return NextResponse.json({
+        realPrice: product.precio,
+        errorAbs,
+        errorPct,
+        percentile: 0,
+      });
     }
 
     // Rate limiting
@@ -51,8 +80,6 @@ export async function POST(request: NextRequest) {
         { status: 429 }
       );
     }
-
-    const supabase = createServiceClient();
 
     // Check for existing guess from this session
     const { data: existingGuess } = await supabase

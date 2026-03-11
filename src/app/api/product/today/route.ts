@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import { getGameDate } from "@/lib/game/date-utils";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const supabase = createServiceClient();
-    const today = getGameDate();
+
+    const dateParam = request.nextUrl.searchParams.get("date");
+    const isDev = process.env.NODE_ENV === "development";
+    const today = isDev && dateParam ? dateParam : getGameDate();
 
     const { data, error } = await supabase
       .from("products")

@@ -13,6 +13,7 @@ export const STORAGE_KEY_PREFIX = "precigame";
 export const SESSION_ID_KEY = "precigame-session-id";
 
 export const ERROR_COLORS = {
+  perfect: "#ffd700",
   excellent: "#0ead69",
   good: "#f4a261",
   poor: "#e63946",

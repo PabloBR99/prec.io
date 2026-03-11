@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAnimationSequence } from "@/hooks/useAnimationSequence";
 import { fetchPercentile } from "@/lib/api/client";
 import { PriceReveal } from "./PriceReveal";
+import { Confetti } from "./Confetti";
 import { ErrorGauge } from "./ErrorGauge";
 import { ErrorSummary } from "./ErrorSummary";
 import { PercentileDisplay } from "./PercentileDisplay";
@@ -33,8 +34,11 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
     return () => clearInterval(id);
   }, [result.errorPct]);
 
+  const isPerfect = result.errorPct === 0;
+
   return (
     <div className="flex w-full flex-col items-center gap-8">
+      {isPerfect && <Confetti visible={step >= 1} />}
       <PriceReveal realPrice={result.realPrice} visible={step >= 0} />
       <ErrorGauge
         errorPct={result.errorPct}

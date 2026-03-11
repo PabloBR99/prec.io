@@ -1,4 +1,4 @@
-export type ErrorLevel = "excellent" | "good" | "poor";
+export type ErrorLevel = "perfect" | "excellent" | "good" | "poor";
 
 export type GamePhase = "loading" | "playing" | "completed";
 

@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "world.openfoodfacts.org",
       },
+      {
+        protocol: "https",
+        hostname: "vaxypjgigcnyecydrych.supabase.co",
+      },
     ],
   },
 };

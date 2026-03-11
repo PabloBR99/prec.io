@@ -2,6 +2,7 @@ import { getErrorLevel } from "./calculations";
 import { getGameNumber } from "./date-utils";
 
 const ERROR_EMOJI: Record<string, string> = {
+  perfect: "\uD83C\uDFAF",
   excellent: "\uD83D\uDFE2",
   good: "\uD83D\uDFE1",
   poor: "\uD83D\uDD34",
@@ -15,6 +16,16 @@ export function generateShareText(
   const gameNumber = getGameNumber(date);
   const level = getErrorLevel(errorPct);
   const emoji = ERROR_EMOJI[level];
+
+  if (level === "perfect") {
+    return [
+      `prec.io #${gameNumber} ${emoji} PRECIO EXACTO!`,
+      `He acertado el precio exacto!`,
+      `Mejor que el ${Math.round(percentile)}% de jugadores`,
+      "",
+      "https://prec-io.vercel.app",
+    ].join("\n");
+  }
 
   const accuracy = Math.max(0, 100 - errorPct);
 
