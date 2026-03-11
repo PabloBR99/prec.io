@@ -49,7 +49,7 @@ export function GuessForm({ onSubmit, isSubmitting }: GuessFormProps) {
 
   return (
     <div onWheel={handleWheel} className="flex w-full flex-col items-center gap-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/35">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
         ¿Cuánto cuesta?
       </p>
       <PriceDisplay value={price} onChange={handleChange} disabled={isSubmitting} />

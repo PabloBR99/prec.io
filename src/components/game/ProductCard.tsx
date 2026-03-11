@@ -47,36 +47,27 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-2xl px-5 pb-4 pt-5"
+      className="relative w-full overflow-hidden rounded-lg px-5 pb-10 pt-8 rotate-[-1.5deg]"
       style={{
         background: "linear-gradient(145deg, #FFF9EE 0%, #FFF7E8 100%)",
         boxShadow:
-          "0 2px 8px rgba(120,80,20,0.08), 0 8px 24px rgba(120,80,20,0.05), inset 0 1px 0 rgba(255,255,255,0.7)",
+          "0 1px 3px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.7)",
       }}
     >
       {/* Dark mode — soften the white card */}
-      <div className="pointer-events-none absolute inset-0 hidden rounded-2xl bg-black/[0.06] dark:block" />
+      <div className="pointer-events-none absolute inset-0 hidden rounded-2xl bg-black/30 dark:block" />
 
-      <div className="relative flex items-center gap-[78px]">
+      <div className="relative flex items-center gap-2.5 sm:gap-[58px]">
         {/* Polaroid — the hero */}
-        <div className="relative shrink-0 rotate-[2deg]">
-          {/* Tape strip */}
-          <div
-            className="absolute -right-3 -top-2.5 z-10 h-6 w-12 rotate-[18deg] rounded-sm"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,230,160,0.75) 0%, rgba(255,220,130,0.55) 100%)",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-            }}
-          />
+        <div className="relative ml-4 shrink-0 rotate-[2deg] sm:ml-6">
           <div
             className="overflow-hidden rounded-sm bg-white p-1.5 pb-2.5"
             style={{
               boxShadow:
-                "0 3px 10px rgba(80,50,10,0.15), 0 1px 3px rgba(80,50,10,0.10), inset 0 0 0 1px rgba(0,0,0,0.04)",
+                "0 1px 3px rgba(0,0,0,0.12), 0 3px 8px rgba(0,0,0,0.08)",
             }}
           >
-            <div className="relative h-[95px] w-[95px] overflow-hidden rounded-[2px] bg-neutral-50 sm:h-[124px] sm:w-[124px]">
+            <div className="relative h-[88px] w-[88px] overflow-hidden rounded-[2px] bg-neutral-50 sm:h-[114px] sm:w-[114px]">
               <Image
                 src={product.imagen_url}
                 alt={product.nombre}
@@ -96,18 +87,18 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Product info — right of polaroid, left-aligned */}
         <div className="min-w-0 flex-1 self-start pt-4">
-          <h1 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold leading-tight text-[#2D1F0E] sm:text-xl">
+          <h1 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold leading-tight text-[#2D1F0E] dark:text-amber-50 sm:text-xl">
             {product.nombre}
           </h1>
           {subtitleParts.length > 0 && (
-            <p className="mt-0.5 text-sm text-[#2D1F0E]/45">
+            <p className="mt-0.5 text-sm text-[#2D1F0E]/45 dark:text-amber-100/50">
               {subtitleParts.join(" · ")}
             </p>
           )}
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {product.categoria && (
               <span
-                className="inline-block rounded-full border border-[#D97706]/20 px-2.5 py-0.5 text-xs font-semibold text-[#D97706]"
+                className="inline-block rounded-full border border-[#D97706]/20 px-2.5 py-0.5 text-xs font-semibold text-[#D97706] dark:border-amber-400/25 dark:text-amber-400"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(217,119,6,0.08) 0%, rgba(249,115,22,0.06) 100%)",
@@ -121,9 +112,9 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Day stamp — circular seal, inside bottom right */}
-      <div className="pointer-events-none absolute bottom-1 right-2">
+      <div className="pointer-events-none absolute bottom-3 right-2">
         <div className="relative rotate-[-12deg]">
-          <svg width="80" height="80" viewBox="0 0 96 96" fill="none">
+          <svg className="h-16 w-16 sm:h-20 sm:w-20" viewBox="0 0 96 96" fill="none">
             {/* Outer ring */}
             <circle cx="48" cy="48" r="44" stroke={stampColor} strokeWidth="2.5" opacity="0.7" strokeDasharray="4 2.5" />
             {/* Inner ring */}
@@ -163,7 +154,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </svg>
           {/* Center number */}
           <span
-            className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-space-grotesk)] text-lg font-extrabold tracking-wide"
+            className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-space-grotesk)] text-base font-extrabold tracking-wide sm:text-lg"
             style={{ color: stampColor, opacity: 0.8 }}
           >
             #{dayNum}

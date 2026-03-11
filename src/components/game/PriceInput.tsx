@@ -52,7 +52,7 @@ export function PriceInput({ value, onChange, disabled }: PriceInputProps) {
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1.5">
       <input
         type="text"
         inputMode="decimal"
@@ -61,10 +61,11 @@ export function PriceInput({ value, onChange, disabled }: PriceInputProps) {
         onBlur={handleBlur}
         onFocus={handleFocus}
         disabled={disabled}
-        className="w-24 rounded-lg border border-foreground/[0.08] bg-surface px-3 py-2 text-center text-lg font-semibold text-foreground shadow-sm outline-none transition-all focus:border-accent focus:shadow-md focus:shadow-accent/10"
+        placeholder="0,00"
+        className="w-20 rounded-lg border border-foreground/[0.06] bg-foreground/[0.03] px-2.5 py-1.5 text-center text-sm tabular-nums text-foreground/70 outline-none transition-all focus:border-accent focus:bg-surface focus:text-foreground focus:shadow-sm focus:shadow-accent/10"
         aria-label="Introduce el precio manualmente"
       />
-      <span className="text-lg font-semibold text-foreground/60">&euro;</span>
+      <span className="text-sm text-foreground/40">&euro;</span>
     </div>
   );
 }

@@ -6,6 +6,7 @@ export interface ProductResponse {
   readonly marca: string | null;
   readonly cantidad: string | null;
   readonly fecha: string;
+  readonly created_at: string;
 }
 
 export interface GuessRequest {

@@ -1,14 +1,21 @@
 "use client";
 
 import { motion, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 interface PriceRevealProps {
   readonly realPrice: number;
+  readonly createdAt: string;
   readonly visible: boolean;
 }
 
-export function PriceReveal({ realPrice, visible }: PriceRevealProps) {
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
+}
+
+export function PriceReveal({ realPrice, createdAt, visible }: PriceRevealProps) {
+  const formattedDate = useMemo(() => formatDate(createdAt), [createdAt]);
   const spring = useSpring(0, { stiffness: 50, damping: 15 });
   const [display, setDisplay] = useState("0,00 \u20AC");
 
@@ -41,6 +48,7 @@ export function PriceReveal({ realPrice, visible }: PriceRevealProps) {
       <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tabular-nums text-foreground sm:text-3xl">
         {display}
       </p>
+      <p className="mt-1 text-[11px] text-foreground/35">{formattedDate}</p>
     </motion.div>
   );
 }

@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await supabase
       .from("products")
-      .select("id, nombre, imagen_url, categoria, marca, cantidad, fecha_asignada")
+      .select("id, nombre, imagen_url, categoria, marca, cantidad, fecha_asignada, created_at")
       .eq("fecha_asignada", today)
       .eq("activo", true)
       .single();
@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
         marca: data.marca,
         cantidad: data.cantidad,
         fecha: data.fecha_asignada,
+        created_at: data.created_at,
       },
       {
         headers: {

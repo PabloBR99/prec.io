@@ -65,7 +65,7 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1} className="w-[97%] px-2">
+      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1} className="w-[94%] px-2">
         <ProductCard product={product} />
       </motion.div>
 
@@ -81,7 +81,7 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
       )}
 
       {phase === "completed" && result && (
-        <ResultContainer result={result} date={currentDate} />
+        <ResultContainer result={result} date={currentDate} productCreatedAt={product.created_at} />
       )}
 
       {IS_DEV && <DevToolbar currentDate={devDate} onDateChange={setDevDate} />}

@@ -10,7 +10,7 @@ async function getTodayProduct(): Promise<Product | null> {
 
   const { data } = await supabase
     .from("products")
-    .select("id, nombre, imagen_url, categoria, marca, cantidad, fecha_asignada")
+    .select("id, nombre, imagen_url, categoria, marca, cantidad, fecha_asignada, created_at")
     .eq("fecha_asignada", today)
     .eq("activo", true)
     .single();
@@ -25,6 +25,7 @@ async function getTodayProduct(): Promise<Product | null> {
     marca: data.marca,
     cantidad: data.cantidad,
     fecha: data.fecha_asignada,
+    created_at: data.created_at,
   };
 }
 

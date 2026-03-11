@@ -16,13 +16,14 @@ import type { GameResult } from "@/types/game";
 interface ResultContainerProps {
   readonly result: GameResult;
   readonly date: string;
+  readonly productCreatedAt: string;
 }
 
 // Flow: price → error → bell curve → percentile → share → countdown
 const STEP_DELAYS = [300, 500, 500, 500, 400, 300] as const;
 const POLL_INTERVAL = 30_000;
 
-export function ResultContainer({ result, date }: ResultContainerProps) {
+export function ResultContainer({ result, date, productCreatedAt }: ResultContainerProps) {
   const step = useAnimationSequence(6, STEP_DELAYS);
   const [percentile, setPercentile] = useState(result.percentile);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,10 +56,10 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
       <div className="w-full overflow-hidden rounded-2xl bg-surface/80 shadow-sm ring-1 ring-foreground/[0.06] backdrop-blur-sm">
         {/* Top row: Price + Error — split with vertical divider */}
         <div className="grid grid-cols-2 divide-x divide-foreground/[0.08]">
-          <div className="flex items-center justify-center px-4 py-5">
-            <PriceReveal realPrice={result.realPrice} visible={step >= 0} />
+          <div className="flex items-start justify-center px-4 py-5">
+            <PriceReveal realPrice={result.realPrice} createdAt={productCreatedAt} visible={step >= 0} />
           </div>
-          <div className="flex items-center justify-center px-4 py-5">
+          <div className="flex items-start justify-center px-4 py-5">
             <ErrorSummary
               guess={result.guess}
               realPrice={result.realPrice}
