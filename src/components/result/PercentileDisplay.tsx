@@ -29,12 +29,12 @@ export function PercentileDisplay({ percentile, visible }: PercentileDisplayProp
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: "spring", stiffness: 100, damping: 12 }}
+      initial={{ opacity: 0, y: 15, filter: "blur(6px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className="text-center"
     >
-      <p className="text-4xl font-bold text-accent sm:text-5xl">
+      <p className="text-3xl font-bold text-accent sm:text-4xl">
         {display}%
       </p>
       <p className="mt-1 text-sm text-foreground/60 sm:text-base">

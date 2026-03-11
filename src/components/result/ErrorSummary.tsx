@@ -13,10 +13,24 @@ interface ErrorSummaryProps {
   readonly visible: boolean;
 }
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const item = {
+  hidden: { opacity: 0, x: 20, filter: "blur(4px)" },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
 export function ErrorSummary({
   guess,
   realPrice,
-  errorAbs,
   errorPct,
   errorLevel,
   visible,
@@ -26,20 +40,23 @@ export function ErrorSummary({
   const color = ERROR_COLORS[errorLevel];
   const isPerfect = errorLevel === "perfect";
 
-  const accuracy = Math.max(0, 100 - errorPct);
-
   const lines = [
     { label: "Tu estimación", value: formatEuro(guess) },
     { label: "Precio real", value: formatEuro(realPrice) },
     {
-      label: "Precisión",
-      value: isPerfect ? "EXACTO!" : `${accuracy.toFixed(1)}%`,
+      label: "Error",
+      value: isPerfect ? "EXACTO!" : `${errorPct.toFixed(1)}%`,
       highlight: true,
     },
   ];
 
   return (
-    <div className="flex flex-col gap-2">
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col gap-2"
+    >
       {isPerfect && (
         <motion.p
           initial={{ opacity: 0, scale: 0.5 }}
@@ -51,12 +68,10 @@ export function ErrorSummary({
           Precio exacto!
         </motion.p>
       )}
-      {lines.map((line, i) => (
+      {lines.map((line) => (
         <motion.div
           key={line.label}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.15 }}
+          variants={item}
           className="flex items-center justify-between gap-4 text-sm sm:text-base"
         >
           <span className="text-foreground/60">{line.label}</span>
@@ -68,7 +83,7 @@ export function ErrorSummary({
           </span>
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 

@@ -34,12 +34,12 @@ export function ErrorGauge({ errorPct, visible }: ErrorGaugeProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 12 }}
+      initial={{ opacity: 0, scale: 0.6, filter: "blur(6px)" }}
+      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="flex justify-center"
     >
-      <svg viewBox="0 0 200 110" className="w-full max-w-[280px]">
+      <svg viewBox="0 0 200 110" className="w-full max-w-[320px]">
         <defs>
           <linearGradient id={GRADIENT_ID} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="#e63946" />

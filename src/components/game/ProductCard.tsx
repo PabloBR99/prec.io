@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative h-56 w-56 overflow-hidden rounded-2xl bg-white shadow-sm sm:h-64 sm:w-64">
+      <div className="relative h-44 w-44 overflow-hidden rounded-2xl bg-white shadow-sm sm:h-52 sm:w-52">
         <Image
           src={product.imagen_url}
           alt={product.nombre}
