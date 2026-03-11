@@ -64,21 +64,14 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-5">
-      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1}>
+    <div className="flex w-full flex-col items-center gap-3">
+      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1} className="w-[97%] px-2">
         <ProductCard product={product} />
       </motion.div>
 
       {phase === "playing" && (
         <>
-          <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.3} className="flex w-full items-center gap-3">
-            <div className="h-px flex-1 bg-foreground/[0.08]" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
-              ¿Cuánto cuesta?
-            </p>
-            <div className="h-px flex-1 bg-foreground/[0.08]" />
-          </motion.div>
-          <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.45} className="w-full max-w-md">
+          <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.35} className="w-full">
             <GuessForm onSubmit={handleGuess} isSubmitting={isSubmitting} />
           </motion.div>
           {error && (

@@ -29,8 +29,6 @@ const item = {
 export function ShareButton({ date, errorPct, percentile, visible }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  if (!visible) return null;
-
   const text = generateShareText(date, errorPct, percentile);
 
   const handleTwitter = () => {
@@ -55,7 +53,7 @@ export function ShareButton({ date, errorPct, percentile, visible }: ShareButton
     <motion.div
       variants={container}
       initial="hidden"
-      animate="show"
+      animate={visible ? "show" : "hidden"}
       className="flex flex-wrap items-center justify-center gap-3"
     >
       <motion.button

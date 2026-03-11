@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { PriceSlider, priceToPosition, positionToPrice, INTERNAL_MAX } from "./PriceSlider";
-import { PriceInput } from "./PriceInput";
 import { PriceDisplay } from "./PriceDisplay";
 import { ConfirmButton } from "./ConfirmButton";
 import { useHaptic } from "@/hooks/useHaptic";
@@ -49,13 +48,12 @@ export function GuessForm({ onSubmit, isSubmitting }: GuessFormProps) {
   }, [price, isSubmitting, handleChange, triggerHaptic]);
 
   return (
-    <div onWheel={handleWheel} className="flex w-full flex-col items-center gap-6">
-      <PriceDisplay value={price} />
+    <div onWheel={handleWheel} className="flex w-full flex-col items-center gap-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/35">
+        ¿Cuánto cuesta?
+      </p>
+      <PriceDisplay value={price} onChange={handleChange} disabled={isSubmitting} />
       <PriceSlider value={price} onChange={handleChange} disabled={isSubmitting} />
-      <div className="flex items-center gap-2">
-        <span className="text-sm font-medium text-foreground/50">o escribe:</span>
-        <PriceInput value={price} onChange={handleChange} disabled={isSubmitting} />
-      </div>
       <ConfirmButton
         onClick={handleConfirm}
         disabled={!hasInteracted}

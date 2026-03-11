@@ -120,8 +120,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           height: 30px;
           border-radius: 50%;
           background: ${thumbColor};
-          border: 4px solid white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          border: 3px solid var(--color-surface);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
           cursor: pointer;
           transition: transform 0.15s ease, background 0.15s ease;
         }
@@ -136,8 +136,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           height: 30px;
           border-radius: 50%;
           background: ${thumbColor};
-          border: 4px solid white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          border: 3px solid var(--color-surface);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
           cursor: pointer;
         }
       `}</style>

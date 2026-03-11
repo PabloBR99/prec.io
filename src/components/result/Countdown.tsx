@@ -25,8 +25,6 @@ const item = {
 export function Countdown({ visible }: CountdownProps) {
   const { hours, minutes, seconds } = useCountdown();
 
-  if (!visible) return null;
-
   const pad = (n: number) => n.toString().padStart(2, "0");
   const segments = [
     { value: pad(hours), label: "horas" },
@@ -38,7 +36,7 @@ export function Countdown({ visible }: CountdownProps) {
     <motion.div
       variants={container}
       initial="hidden"
-      animate="show"
+      animate={visible ? "show" : "hidden"}
       className="flex flex-col items-center gap-3"
     >
       <motion.div

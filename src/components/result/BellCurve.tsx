@@ -85,13 +85,17 @@ const SEGMENTS = [
 ] as const;
 
 /* ── Character image config ───────────────────────────── */
-/* Character always centered above the peak to avoid overlap with marker */
 
-const CHAR_IMG: Record<MidwitZone, { src: string; w: number; h: number }> = {
-  simpleton: { src: "/midwits/left.png", w: 88, h: 88 },
-  midwit: { src: "/midwits/center.png", w: 96, h: 86 },
-  expert: { src: "/midwits/right.png", w: 86, h: 96 },
-};
+const CHAR_DEFS: { zone: MidwitZone; src: string; z: number; w: number; h: number }[] = [
+  { zone: "simpleton", src: "/midwits/left.png", z: -3.1, w: 76, h: 76 },
+  { zone: "midwit", src: "/midwits/center.png", z: 0, w: 76, h: 76 },
+  { zone: "expert", src: "/midwits/right.png", z: 3.1, w: 76, h: 76 },
+];
+
+const ACTIVE_SCALE = 1;
+const INACTIVE_SCALE = 1;
+const ACTIVE_OPACITY = 1;
+const INACTIVE_OPACITY = 0.2;
 
 /* ── Main component ───────────────────────────────────── */
 
@@ -101,16 +105,10 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
   const targetZ = useMemo(() => percentileToZ(percentile), [percentile]);
   const zone = useMemo(() => getZone(percentile), [percentile]);
 
-  if (!visible) return null;
-
-  const { src, w, h } = CHAR_IMG[zone];
-  const charX = W / 2 - w / 2;
-  const charY = PEAK_Y - h - 4;
-
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
-      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      initial={false}
+      animate={visible ? { opacity: 1, scale: 1, filter: "blur(0px)" } : { opacity: 0, scale: 0.97, filter: "blur(4px)" }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="flex w-full justify-center"
     >
@@ -133,25 +131,39 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
           </linearGradient>
         </defs>
 
-        {/* ── Active midwit character — centered above peak ── */}
-        <motion.image
-          href={src}
-          x={charX}
-          y={charY}
-          width={w}
-          height={h}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.3 }}
-        />
+        {/* ── All 3 midwit characters — each at their curve position ── */}
+        {CHAR_DEFS.map((char) => {
+          const isActive = char.zone === zone;
+          const scale = isActive ? ACTIVE_SCALE : INACTIVE_SCALE;
+          const sw = char.w * scale;
+          const sh = char.h * scale;
+          const cx = zToX(char.z) - sw / 2;
+          const curveY = char.zone === "midwit"
+            ? PEAK_Y
+            : yFromPdf(normalPDF(char.z));
+          const cy = curveY - sh - (char.zone === "midwit" ? 4 : 14);
+          return (
+            <motion.image
+              key={char.zone}
+              href={char.src}
+              x={cx}
+              y={cy}
+              width={sw}
+              height={sh}
+              initial={false}
+              animate={{ opacity: visible ? (isActive ? ACTIVE_OPACITY : INACTIVE_OPACITY) : 0 }}
+              transition={{ duration: 0.5, delay: visible ? (isActive ? 0.4 : 0.5) : 0 }}
+            />
+          );
+        })}
 
         {/* ── Filled area under curve ── */}
         <motion.path
           d={filled}
           fill="url(#bc-fill)"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial={false}
+          animate={{ opacity: visible ? 1 : 0 }}
+          transition={{ duration: 0.6, delay: visible ? 0.05 : 0 }}
         />
 
         {/* ── Curve outline ── */}
@@ -161,9 +173,9 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
           stroke="url(#bc-stroke)"
           strokeWidth={3}
           strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+          initial={false}
+          animate={{ pathLength: visible ? 1 : 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         />
 
         {/* ── SD vertical lines ── */}
@@ -178,15 +190,16 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
             strokeWidth={0.75}
             strokeDasharray="3 3"
             className="text-foreground/10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.4 }}
+            initial={false}
+            animate={{ opacity: visible ? 1 : 0 }}
+            transition={{ delay: visible ? 0.3 : 0, duration: 0.4 }}
           />
         ))}
 
-        {/* ── Segment percentage labels ── */}
+        {/* ── Segment percentage labels — staircase following curve ── */}
         {SEGMENTS.map(({ z, pct }) => {
-          const midY = (yFromPdf(normalPDF(z)) + BASE_Y) / 2;
+          const curveTop = yFromPdf(normalPDF(z));
+          const midY = curveTop + (BASE_Y - curveTop) * 0.4;
           return (
             <motion.text
               key={z}
@@ -194,9 +207,9 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
               y={midY + 4}
               textAnchor="middle"
               className="fill-foreground/25 text-[11px] font-medium"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.4 }}
+              initial={false}
+              animate={{ opacity: visible ? 1 : 0 }}
+              transition={{ delay: visible ? 0.35 : 0, duration: 0.4 }}
             >
               {pct}
             </motion.text>
@@ -219,9 +232,9 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
           x={PX + 2}
           y={H - 5}
           className="fill-foreground/40 text-[12px]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+          initial={false}
+          animate={{ opacity: visible ? 1 : 0 }}
+          transition={{ delay: visible ? 0.35 : 0, duration: 0.4 }}
         >
           Peor
         </motion.text>
@@ -230,15 +243,15 @@ export function BellCurve({ percentile, visible }: BellCurveProps) {
           y={H - 5}
           textAnchor="end"
           className="fill-foreground/40 text-[12px]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+          initial={false}
+          animate={{ opacity: visible ? 1 : 0 }}
+          transition={{ delay: visible ? 0.35 : 0, duration: 0.4 }}
         >
           Mejor
         </motion.text>
 
         {/* ── User marker ── */}
-        <Marker targetZ={targetZ} />
+        {visible && <Marker targetZ={targetZ} />}
       </svg>
     </motion.div>
   );
@@ -254,7 +267,7 @@ function Marker({ targetZ }: { readonly targetZ: number }) {
   });
 
   useEffect(() => {
-    const id = setTimeout(() => spring.set(targetZ), 500);
+    const id = setTimeout(() => spring.set(targetZ), 300);
     return () => clearTimeout(id);
   }, [targetZ, spring]);
 

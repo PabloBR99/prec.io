@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useAnimationSequence } from "@/hooks/useAnimationSequence";
 import { fetchPercentile } from "@/lib/api/client";
 import { PriceReveal } from "./PriceReveal";
@@ -17,7 +18,8 @@ interface ResultContainerProps {
   readonly date: string;
 }
 
-const STEP_DELAYS = [300, 800, 600, 500, 500, 400] as const;
+// Flow: price → error → bell curve → percentile → share → countdown
+const STEP_DELAYS = [300, 500, 500, 500, 400, 300] as const;
 const POLL_INTERVAL = 30_000;
 
 export function ResultContainer({ result, date }: ResultContainerProps) {
@@ -59,9 +61,9 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
           <div className="flex items-center justify-center px-4 py-5">
             <ErrorSummary
               guess={result.guess}
-              errorPct={result.errorPct}
+              realPrice={result.realPrice}
               errorLevel={result.errorLevel}
-              visible={step >= 2}
+              visible={step >= 1}
             />
           </div>
         </div>
@@ -69,17 +71,22 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
         <div className="h-px bg-foreground/[0.08]" />
         {/* Bell curve + Percentile — unified block with subtle tint */}
         <div className="flex flex-col items-center gap-1 bg-foreground/[0.015] px-4 pb-5 pt-2">
-          <BellCurve percentile={percentile} visible={step >= 1} />
+          <BellCurve percentile={percentile} visible={step >= 2} />
           <PercentileDisplay percentile={percentile} visible={step >= 3} />
         </div>
       </div>
 
       {/* Separator before share section */}
-      <div className="flex w-full items-center gap-3">
+      <motion.div
+        initial={false}
+        animate={step >= 4 ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex w-full items-center gap-3"
+      >
         <div className="h-px flex-1 bg-foreground/[0.08]" />
         <span className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">Comparte</span>
         <div className="h-px flex-1 bg-foreground/[0.08]" />
-      </div>
+      </motion.div>
       <ShareButton
         date={date}
         errorPct={result.errorPct}

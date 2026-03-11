@@ -25,13 +25,11 @@ export function PercentileDisplay({ percentile, visible }: PercentileDisplayProp
     return unsubscribe;
   }, [spring]);
 
-  if (!visible) return null;
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15, filter: "blur(6px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      initial={false}
+      animate={visible ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 8, filter: "blur(4px)" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="text-center"
     >
       <p className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold text-accent sm:text-5xl">

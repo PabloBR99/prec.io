@@ -40,36 +40,20 @@ export default async function Home() {
 
       {/* Background decorations */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        {/* Warm blobs */}
         <div className="absolute -left-32 -top-20 h-[420px] w-[420px] rounded-full bg-[#F59E0B]/[0.10] blur-[90px]" />
         <div className="absolute -right-20 bottom-[15%] h-[350px] w-[350px] rounded-full bg-[#F97316]/[0.08] blur-[80px]" />
-
-        {/* € watermarks — more visible */}
-        <span
-          className="absolute right-[2%] top-[5%] select-none font-[family-name:var(--font-space-grotesk)] text-[160px] font-black leading-none text-accent/[0.08] sm:right-[4%] sm:text-[200px]"
-          style={{ animation: "euro-drift-1 9s ease-in-out infinite" }}
-        >€</span>
-        <span
-          className="absolute -left-4 bottom-[8%] select-none font-[family-name:var(--font-space-grotesk)] text-[130px] font-black leading-none text-[#F97316]/[0.07] sm:left-[1%] sm:text-[160px]"
-          style={{ animation: "euro-drift-2 11s ease-in-out infinite" }}
-        >€</span>
-        <span
-          className="absolute right-[6%] bottom-[30%] select-none font-[family-name:var(--font-space-grotesk)] text-[70px] font-bold leading-none text-accent/[0.07] sm:text-[90px]"
-          style={{ animation: "euro-drift-3 8s ease-in-out infinite" }}
-        >€</span>
       </div>
       <Header />
-      <main className="relative flex flex-1 flex-col items-center px-4 pb-8 pt-6">
+      <main className="relative flex flex-1 flex-col items-center justify-center px-4 pb-12">
         <GameContainer serverProduct={product} />
       </main>
-      <footer className="relative border-t border-foreground/[0.08] py-4 text-center text-xs text-foreground/40">
-        <span className="font-[family-name:var(--font-space-grotesk)] font-semibold text-foreground/50">prec.io</span>
-        {" "}&mdash; Datos de productos via{" "}
+      <footer className="relative py-3 text-center text-[11px] text-foreground/30">
+        Datos via{" "}
         <a
           href="https://world.openfoodfacts.org/"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium underline decoration-accent/20 underline-offset-2 transition-colors hover:text-accent"
+          className="underline decoration-foreground/10 underline-offset-2 transition-colors hover:text-accent"
         >
           Open Food Facts
         </a>
