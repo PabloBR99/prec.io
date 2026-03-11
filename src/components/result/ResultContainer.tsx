@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAnimationSequence } from "@/hooks/useAnimationSequence";
 import { fetchPercentile } from "@/lib/api/client";
 import { PriceReveal } from "./PriceReveal";
@@ -23,6 +23,7 @@ const POLL_INTERVAL = 30_000;
 export function ResultContainer({ result, date }: ResultContainerProps) {
   const step = useAnimationSequence(6, STEP_DELAYS);
   const [percentile, setPercentile] = useState(result.percentile);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const poll = () => {
@@ -34,10 +35,18 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
     return () => clearInterval(id);
   }, [result.errorPct, date]);
 
+  // Scroll to results on mount
+  useEffect(() => {
+    const id = setTimeout(() => {
+      containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+    return () => clearTimeout(id);
+  }, []);
+
   const isPerfect = result.errorPct === 0;
 
   return (
-    <div className="flex w-full flex-col items-center gap-5">
+    <div ref={containerRef} className="flex w-full flex-col items-center gap-5">
       {isPerfect && <Confetti visible={step >= 1} />}
 
       {/* Unified results card */}
