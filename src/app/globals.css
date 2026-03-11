@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /*
  * OKLCH-based palette — Amber/Gold
  * Accent: oklch(0.75 0.16 75) → #D97706
@@ -14,14 +12,6 @@
   --color-accent: #D97706;
   --color-surface: #FFFFFF;
   --color-foreground-10: rgba(45, 31, 14, 0.1);
-}
-
-.dark {
-  --background: #1C1914;
-  --foreground: #F5EFE6;
-  --color-accent: #F59E0B;
-  --color-surface: #2A2520;
-  --color-foreground-10: rgba(245, 239, 230, 0.1);
 }
 
 @theme inline {
@@ -38,12 +28,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: radial-gradient(circle, rgba(217, 119, 6, 0.13) 1.2px, transparent 1.2px);
-  background-size: 22px 22px;
-}
-
-.dark body,
-.dark {
-  background-image: radial-gradient(circle, rgba(245, 158, 11, 0.08) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 

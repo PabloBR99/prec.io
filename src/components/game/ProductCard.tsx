@@ -47,16 +47,20 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-lg px-5 pb-10 pt-8 rotate-[-1.5deg]"
+      className="relative w-full overflow-hidden rounded-lg px-5 pb-10 pt-8 rotate-[-0.7deg]"
       style={{
-        background: "linear-gradient(145deg, #FFF9EE 0%, #FFF7E8 100%)",
+        background: "linear-gradient(145deg, #FFFFFF 0%, #FEFCF8 100%)",
         boxShadow:
           "0 1px 3px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.7)",
       }}
     >
-      {/* Dark mode — soften the white card */}
-      <div className="pointer-events-none absolute inset-0 hidden rounded-2xl bg-black/30 dark:block" />
-
+      {/* Paper texture — noise overlay */}
+      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18]" aria-hidden="true">
+        <filter id="cardNoise">
+          <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="5" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#cardNoise)" />
+      </svg>
       <div className="relative flex items-center gap-2.5 sm:gap-[58px]">
         {/* Polaroid — the hero */}
         <div className="relative ml-4 shrink-0 rotate-[2deg] sm:ml-6">
@@ -87,18 +91,18 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Product info — right of polaroid, left-aligned */}
         <div className="min-w-0 flex-1 self-start pt-4">
-          <h1 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold leading-tight text-[#2D1F0E] dark:text-amber-50 sm:text-xl">
+          <h1 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold leading-tight text-[#2D1F0E] sm:text-xl">
             {product.nombre}
           </h1>
           {subtitleParts.length > 0 && (
-            <p className="mt-0.5 text-sm text-[#2D1F0E]/45 dark:text-amber-100/50">
+            <p className="mt-0.5 text-sm text-[#2D1F0E]/45">
               {subtitleParts.join(" · ")}
             </p>
           )}
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {product.categoria && (
               <span
-                className="inline-block rounded-full border border-[#D97706]/20 px-2.5 py-0.5 text-xs font-semibold text-[#D97706] dark:border-amber-400/25 dark:text-amber-400"
+                className="inline-block rounded-full border border-[#D97706]/20 px-2.5 py-0.5 text-xs font-semibold text-[#D97706]"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(217,119,6,0.08) 0%, rgba(249,115,22,0.06) 100%)",
