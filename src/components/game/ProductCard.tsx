@@ -13,15 +13,15 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-foreground/5">
+      <div className="relative h-56 w-56 overflow-hidden rounded-2xl bg-white shadow-sm sm:h-64 sm:w-64">
         <Image
           src={product.imagen_url}
           alt={product.nombre}
           fill
-          sizes="(max-width: 768px) 100vw, 512px"
+          sizes="256px"
           priority
-          className={`object-contain p-4 transition-all duration-1000 ease-out ${
-            imageLoaded ? "scale-100 blur-0" : "scale-105 blur-lg"
+          className={`object-contain p-2 transition-all duration-700 ease-out ${
+            imageLoaded ? "scale-100 blur-0 opacity-100" : "scale-105 blur-md opacity-0"
           }`}
           onLoad={() => setImageLoaded(true)}
         />
