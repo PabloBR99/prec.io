@@ -58,8 +58,16 @@ export function useGameState() {
 
     fetchTodayProduct()
       .then((p) => {
-        setProduct(p);
-        if (!stored) setPhase("playing");
+        const img = new window.Image();
+        img.src = p.imagen_url;
+        img.onload = () => {
+          setProduct(p);
+          if (!stored) setPhase("playing");
+        };
+        img.onerror = () => {
+          setProduct(p);
+          if (!stored) setPhase("playing");
+        };
       })
       .catch(() => {
         setError("No se pudo cargar el producto de hoy");
