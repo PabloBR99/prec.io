@@ -8,11 +8,11 @@ export function Header() {
   return (
     <header className="flex items-center justify-between px-4 py-3 sm:px-6">
       <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold tracking-tight text-accent">
-          Preci
-        </span>
         <span className="text-2xl font-bold tracking-tight text-foreground">
-          Game
+          prec
+        </span>
+        <span className="text-2xl font-bold tracking-tight text-accent">
+          .io
         </span>
       </div>
       <button

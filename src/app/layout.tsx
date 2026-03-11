@@ -16,13 +16,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "PreciGame — ¿Cuanto cuesta?",
+  title: "prec.io — ¿Cuánto cuesta?",
   description:
-    "Juego diario de estimacion de precios de supermercado. 1 producto al dia, 1 intento. ¿Acertaras el precio?",
+    "Juego diario de estimación de precios de supermercado. 1 producto al día, 1 intento. ¿Acertarás el precio?",
   openGraph: {
-    title: "PreciGame — ¿Cuanto cuesta?",
+    title: "prec.io — ¿Cuánto cuesta?",
     description:
-      "Juego diario de estimacion de precios de supermercado. 1 producto al dia, 1 intento.",
+      "Juego diario de estimación de precios de supermercado. 1 producto al día, 1 intento.",
     type: "website",
   },
 };

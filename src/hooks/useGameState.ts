@@ -93,7 +93,7 @@ export function useGameState() {
         saveState({ date, guess, result: gameResult });
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Error al enviar tu estimacion"
+          err instanceof Error ? err.message : "Error al enviar tu estimación"
         );
       } finally {
         setIsSubmitting(false);

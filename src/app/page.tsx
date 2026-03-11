@@ -9,7 +9,7 @@ export default function Home() {
         <GameContainer />
       </main>
       <footer className="py-4 text-center text-xs text-foreground/30">
-        PreciGame &mdash; Datos de productos via Open Food Facts
+        prec.io &mdash; Datos de productos via Open Food Facts
       </footer>
     </div>
   );

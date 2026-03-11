@@ -4,12 +4,12 @@ import { generateShareText, getTwitterShareUrl, getWhatsAppShareUrl } from "@/li
 describe("generateShareText", () => {
   it("includes game number", () => {
     const text = generateShareText("2026-03-11", 5, 80);
-    expect(text).toContain("PreciGame #1");
+    expect(text).toContain("prec.io #1");
   });
 
-  it("includes error percentage", () => {
+  it("includes accuracy percentage", () => {
     const text = generateShareText("2026-03-11", 12.5, 80);
-    expect(text).toContain("Error: 12.5%");
+    expect(text).toContain("Precisión: 87.5%");
   });
 
   it("includes percentile", () => {

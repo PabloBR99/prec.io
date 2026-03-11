@@ -16,12 +16,14 @@ export function generateShareText(
   const level = getErrorLevel(errorPct);
   const emoji = ERROR_EMOJI[level];
 
+  const accuracy = Math.max(0, 100 - errorPct);
+
   return [
-    `PreciGame #${gameNumber} ${emoji}`,
-    `Error: ${errorPct.toFixed(1)}%`,
+    `prec.io #${gameNumber} ${emoji}`,
+    `Precisión: ${accuracy.toFixed(1)}%`,
     `Mejor que el ${Math.round(percentile)}% de jugadores`,
     "",
-    "precigame.com",
+    "prec.io",
   ].join("\n");
 }
 

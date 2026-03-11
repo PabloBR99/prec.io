@@ -40,7 +40,7 @@ export function GameContainer() {
         <>
           <div className="w-full max-w-md">
             <p className="mb-4 text-center text-sm text-foreground/50">
-              ¿Cuanto crees que cuesta?
+              ¿Cuánto crees que cuesta?
             </p>
             <GuessForm onSubmit={handleGuess} isSubmitting={isSubmitting} />
           </div>

@@ -25,12 +25,14 @@ export function ErrorSummary({
 
   const color = ERROR_COLORS[errorLevel];
 
+  const accuracy = Math.max(0, 100 - errorPct);
+
   const lines = [
-    { label: "Tu estimacion", value: formatEuro(guess) },
+    { label: "Tu estimación", value: formatEuro(guess) },
     { label: "Precio real", value: formatEuro(realPrice) },
     {
-      label: "Error",
-      value: `${formatEuro(errorAbs)} (${errorPct.toFixed(1)}%)`,
+      label: "Precisión",
+      value: `${accuracy.toFixed(1)}%`,
       highlight: true,
     },
   ];

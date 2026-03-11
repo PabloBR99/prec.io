@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       return NextResponse.json(
-        { error: "Error al guardar tu estimacion" },
+        { error: "Error al guardar tu estimación" },
         { status: 500 }
       );
     }

@@ -18,7 +18,7 @@ export async function submitGuess(
   });
   if (!res.ok) {
     const data = await res.json().catch(() => null);
-    throw new Error(data?.error ?? "Error al enviar tu estimacion");
+    throw new Error(data?.error ?? "Error al enviar tu estimación");
   }
   return res.json();
 }

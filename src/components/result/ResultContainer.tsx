@@ -24,7 +24,6 @@ export function ResultContainer({ result, date }: ResultContainerProps) {
       <PriceReveal realPrice={result.realPrice} visible={step >= 0} />
       <ErrorGauge
         errorPct={result.errorPct}
-        errorLevel={result.errorLevel}
         visible={step >= 1}
       />
       <ErrorSummary
