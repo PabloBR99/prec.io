@@ -1,7 +1,6 @@
-import { Header } from "@/components/ui/Header";
 import { GameContainer } from "@/components/game/GameContainer";
 import { createServiceClient } from "@/lib/supabase/server";
-import { getGameDate } from "@/lib/game/date-utils";
+import { getGameDate, getGameNumber } from "@/lib/game/date-utils";
 import type { Product } from "@/types/game";
 
 async function getTodayProduct(): Promise<Product | null> {
@@ -33,20 +32,21 @@ export const revalidate = 60;
 
 export default async function Home() {
   const product = await getTodayProduct();
+  const today = getGameDate();
+  const dayNumber = getGameNumber(today);
 
   return (
     <div className="relative mx-auto flex min-h-screen max-w-lg flex-col">
       {/* Radial clearing — very subtle, dots visible everywhere */}
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_35%_30%_at_50%_42%,var(--background)_0%,transparent_50%)] opacity-70" />
+      <div className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(ellipse_35%_30%_at_50%_42%,var(--background)_0%,transparent_50%)] opacity-70" />
 
       {/* Background decorations */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+      <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" aria-hidden="true">
         <div className="absolute -left-32 -top-20 h-[420px] w-[420px] rounded-full bg-[#F59E0B]/[0.10] blur-[90px]" />
         <div className="absolute -right-20 bottom-[15%] h-[350px] w-[350px] rounded-full bg-[#F97316]/[0.08] blur-[80px]" />
       </div>
-      <Header />
       <main className="relative flex flex-1 flex-col items-center px-4 pb-12 pt-4 sm:pt-10">
-        <GameContainer serverProduct={product} />
+        <GameContainer serverProduct={product} serverDayNumber={dayNumber} />
       </main>
       <footer className="relative py-3 text-center text-[11px] text-foreground/30">
         Datos via{" "}

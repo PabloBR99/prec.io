@@ -18,7 +18,9 @@ export function ErrorSummary({
   visible,
 }: ErrorSummaryProps) {
   const diff = guess - realPrice;
+  const absDiff = Math.abs(diff);
   const isPerfect = errorLevel === "perfect";
+  const errorPct = realPrice > 0 ? Math.round((absDiff / realPrice) * 100) : 0;
 
   return (
     <motion.div
@@ -36,9 +38,14 @@ export function ErrorSummary({
           EXACTO!
         </p>
       ) : diff !== 0 ? (
-        <p className={`mt-1 text-sm font-medium tabular-nums ${diff > 0 ? "text-red-400" : "text-emerald-500"}`}>
-          {diff > 0 ? "+" : ""}{diff.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
-        </p>
+        <div className="mt-1">
+          <p className={`text-sm font-medium tabular-nums ${diff > 0 ? "text-red-400" : "text-emerald-500"}`}>
+            {diff > 0 ? "+" : "\u2212"}{absDiff.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € {diff > 0 ? "de más" : "de menos"}
+          </p>
+          <p className="mt-0.5 text-[11px] text-foreground/40">
+            {errorPct}% de error
+          </p>
+        </div>
       ) : null}
     </motion.div>
   );

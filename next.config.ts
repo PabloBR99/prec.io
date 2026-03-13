@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "vaxypjgigcnyecydrych.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "prod-mercadona.imgix.net",
+      },
     ],
   },
 };

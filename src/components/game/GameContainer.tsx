@@ -7,7 +7,8 @@ import { ProductCard } from "./ProductCard";
 import { GuessForm } from "./GuessForm";
 import { ResultContainer } from "@/components/result/ResultContainer";
 import { DevToolbar } from "@/components/dev/DevToolbar";
-import { getGameDate } from "@/lib/game/date-utils";
+import { Header } from "@/components/ui/Header";
+import { getGameDate, getGameNumber } from "@/lib/game/date-utils";
 import type { Product } from "@/types/game";
 
 const fadeIn = {
@@ -20,13 +21,24 @@ const fadeIn = {
   }),
 };
 
+// No filter — avoids isolated stacking context that breaks mix-blend-multiply on mobile Safari
+const fadeInNoBlur = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
+
 const IS_DEV = process.env.NODE_ENV === "development";
 
 interface GameContainerProps {
   readonly serverProduct: Product | null;
+  readonly serverDayNumber: number;
 }
 
-export function GameContainer({ serverProduct }: GameContainerProps) {
+export function GameContainer({ serverProduct, serverDayNumber }: GameContainerProps) {
   const [devDate, setDevDate] = useState(getGameDate());
 
   const { phase, product, result, error, isSubmitting, handleGuess } =
@@ -37,9 +49,12 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
     );
 
   const currentDate = IS_DEV ? devDate : getGameDate();
+  const dayNumber = IS_DEV ? getGameNumber(currentDate) : serverDayNumber;
 
   if (error && !product) {
     return (
+      <>
+      <Header dayNumber={dayNumber} />
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <p className="text-lg text-foreground/60">{error}</p>
         <button
@@ -49,12 +64,14 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
           Reintentar
         </button>
       </div>
+      </>
     );
   }
 
   if (phase === "loading" || !product) {
     return (
       <>
+        <Header dayNumber={dayNumber} />
         <div className="flex items-center justify-center py-16">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
         </div>
@@ -65,7 +82,8 @@ export function GameContainer({ serverProduct }: GameContainerProps) {
 
   return (
     <div className="flex w-full flex-col items-center gap-6">
-      <motion.div variants={fadeIn} initial="hidden" animate="show" custom={0.1} className="w-[94%] px-2">
+      <Header dayNumber={dayNumber} />
+      <motion.div variants={fadeInNoBlur} initial="hidden" animate="show" custom={0.1} className="w-full">
         <ProductCard product={product} />
       </motion.div>
 

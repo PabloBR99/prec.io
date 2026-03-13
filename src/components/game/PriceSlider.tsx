@@ -9,7 +9,7 @@ interface PriceSliderProps {
   readonly disabled?: boolean;
 }
 
-export const EXPONENT = 2.5;
+export const EXPONENT = 3;
 export const INTERNAL_MAX = 1000;
 
 export function priceToPosition(price: number): number {
@@ -23,36 +23,12 @@ export function positionToPrice(position: number): number {
   return Math.round(raw * 100) / 100;
 }
 
-const TICK_EUROS = [0, 5, 20, 50, 100];
-
-// Interpolate the gradient color at a given percentage
-function getColorAtPercent(pct: number): string {
-  const stops = [
-    { p: 0, r: 14, g: 173, b: 105 },
-    { p: 25, r: 163, g: 213, b: 80 },
-    { p: 50, r: 244, g: 162, b: 97 },
-    { p: 100, r: 230, g: 57, b: 70 },
-  ];
-  let lo = stops[0], hi = stops[stops.length - 1];
-  for (let i = 0; i < stops.length - 1; i++) {
-    if (pct >= stops[i].p && pct <= stops[i + 1].p) {
-      lo = stops[i];
-      hi = stops[i + 1];
-      break;
-    }
-  }
-  const t = hi.p === lo.p ? 0 : (pct - lo.p) / (hi.p - lo.p);
-  const r = Math.round(lo.r + (hi.r - lo.r) * t);
-  const g = Math.round(lo.g + (hi.g - lo.g) * t);
-  const b = Math.round(lo.b + (hi.b - lo.b) * t);
-  return `rgb(${r},${g},${b})`;
-}
+const TICK_EUROS = [0, 1, 5, 25, 100];
 
 export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
   const triggerHaptic = useHaptic();
   const position = priceToPosition(value);
   const percentage = (position / INTERNAL_MAX) * 100;
-  const thumbColor = getColorAtPercent(percentage);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const pos = parseInt(e.target.value);
@@ -101,10 +77,10 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           border-radius: 5px;
           background: linear-gradient(
             to right,
-            #0ead69 0%,
-            #a3d550 25%,
-            #f4a261 50%,
-            #e63946 100%
+            var(--color-accent) 0%,
+            var(--color-accent) ${percentage}%,
+            rgba(0, 0, 0, 0.08) ${percentage}%,
+            rgba(0, 0, 0, 0.08) 100%
           );
           outline: none;
           cursor: pointer;
@@ -119,11 +95,11 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           width: 30px;
           height: 30px;
           border-radius: 50%;
-          background: ${thumbColor};
+          background: var(--color-accent);
           border: 3px solid var(--color-surface);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
           cursor: pointer;
-          transition: transform 0.15s ease, background 0.15s ease;
+          transition: transform 0.15s ease;
         }
         .slider-input::-webkit-slider-thumb:hover {
           transform: scale(1.12);
@@ -135,9 +111,9 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           width: 30px;
           height: 30px;
           border-radius: 50%;
-          background: ${thumbColor};
+          background: var(--color-accent);
           border: 3px solid var(--color-surface);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
           cursor: pointer;
         }
       `}</style>

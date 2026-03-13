@@ -1,7 +1,7 @@
 export const PRICE_MIN = 0;
 export const PRICE_MAX = 100;
 export const PRICE_STEP = 0.05;
-export const PRICE_DEFAULT = 0;
+export const PRICE_DEFAULT = 3;
 
 export const ERROR_THRESHOLD_GOOD = 10;
 export const ERROR_THRESHOLD_OK = 25;

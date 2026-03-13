@@ -13,9 +13,9 @@ export function ConfirmButton({ onClick, disabled, isLoading }: ConfirmButtonPro
     <motion.button
       onClick={onClick}
       disabled={disabled || isLoading}
-      className="relative w-full overflow-hidden rounded-2xl px-8 py-4 font-[family-name:var(--font-space-grotesk)] text-lg font-bold tracking-wide transition-all disabled:cursor-not-allowed enabled:bg-gradient-to-r enabled:from-[#B45309] enabled:via-accent enabled:to-[#F97316] enabled:text-white enabled:shadow-lg enabled:shadow-accent/30 enabled:hover:shadow-xl enabled:hover:shadow-accent/40 disabled:border disabled:border-accent/20 disabled:bg-accent/[0.07] disabled:text-accent/50"
-      whileHover={!disabled ? { scale: 1.03 } : undefined}
-      whileTap={!disabled ? { scale: 0.97 } : undefined}
+      className="relative w-full cursor-pointer overflow-hidden rounded-2xl px-8 py-4 font-[family-name:var(--font-space-grotesk)] text-lg font-bold tracking-wide transition-all enabled:bg-gradient-to-r enabled:from-[#B45309] enabled:via-accent enabled:to-[#F97316] enabled:text-white enabled:shadow-lg enabled:shadow-accent/30 enabled:hover:shadow-xl enabled:hover:shadow-accent/40 disabled:bg-accent/20 disabled:text-accent"
+      whileHover={!disabled ? { scale: 1.03, transition: { duration: 0.02 } } : undefined}
+      whileTap={!disabled ? { scale: 0.97, transition: { duration: 0.02 } } : undefined}
       animate={
         !disabled && !isLoading
           ? {
@@ -42,7 +42,7 @@ export function ConfirmButton({ onClick, disabled, isLoading }: ConfirmButtonPro
           Enviando...
         </span>
       ) : disabled ? (
-        "Desliza para adivinar"
+        "Elige un precio"
       ) : (
         "Enviar"
       )}

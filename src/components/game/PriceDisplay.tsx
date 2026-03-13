@@ -78,8 +78,9 @@ export function PriceDisplay({ value, onChange, disabled }: PriceDisplayProps) {
               if (e.key === "Enter") commit();
               if (e.key === "Escape") setIsEditing(false);
             }}
-            className={`${FONT_CLASSES} w-40 border-b-2 border-accent/30 bg-transparent text-center text-foreground outline-none focus:outline-none focus-visible:outline-none sm:w-48`}
+            className={`${FONT_CLASSES} w-40 border-b-2 border-accent/30 bg-transparent text-center text-foreground outline-none ring-0 focus:border-accent/50 focus:outline-none focus:ring-0 focus-visible:outline-none sm:w-48`}
             style={{ caretColor: "var(--color-accent)" }}
+            autoComplete="off"
           />
           <span className={`${FONT_CLASSES} ml-1.5 bg-gradient-to-br from-foreground via-foreground/90 to-accent bg-clip-text text-transparent`}>
             &euro;
@@ -89,9 +90,11 @@ export function PriceDisplay({ value, onChange, disabled }: PriceDisplayProps) {
     );
   }
 
+  const editable = onChange && !disabled;
+
   return (
     <div
-      className={`relative text-center ${onChange && !disabled ? "cursor-text" : ""}`}
+      className={`relative text-center ${editable ? "cursor-text group" : ""}`}
       onClick={startEditing}
     >
       {/* Subtle glow behind price */}
@@ -101,10 +104,12 @@ export function PriceDisplay({ value, onChange, disabled }: PriceDisplayProps) {
       >
         {display}
       </span>
-      {onChange && !disabled && (
-        <p className="mt-1 text-[10px] font-medium text-foreground/20">
-          toca el precio para escribir
-        </p>
+      {editable && (
+        <div className="mt-1.5 flex justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-foreground/25 transition-colors group-hover:text-accent/60">
+            <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L3.05 10.476a1.75 1.75 0 0 0-.46.84l-.46 2.3a.75.75 0 0 0 .882.882l2.3-.46a1.75 1.75 0 0 0 .84-.46l7.963-7.963a1.75 1.75 0 0 0 0-2.475l-.627-.627ZM11.72 3.22a.25.25 0 0 1 .354 0l.627.627a.25.25 0 0 1 0 .354L5.738 11.164a.25.25 0 0 1-.12.066l-1.34.268.268-1.34a.25.25 0 0 1 .066-.12L11.72 3.22Z" />
+          </svg>
+        </div>
       )}
     </div>
   );
