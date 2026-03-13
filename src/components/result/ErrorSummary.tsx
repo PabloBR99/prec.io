@@ -40,7 +40,7 @@ export function ErrorSummary({
       ) : diff !== 0 ? (
         <div className="mt-1">
           <p className={`text-sm font-medium tabular-nums ${diff > 0 ? "text-red-400" : "text-emerald-500"}`}>
-            {diff > 0 ? "+" : "\u2212"}{absDiff.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € {diff > 0 ? "de más" : "de menos"}
+            {absDiff.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € {diff > 0 ? "de más" : "de menos"}
           </p>
           <p className="mt-0.5 text-[11px] text-foreground/40">
             {errorPct}% de error

@@ -23,12 +23,14 @@ export function PercentileDisplay({ percentile, visible }: PercentileDisplayProp
 
   const markerPct = Math.max(2, Math.min(98, display));
 
+  const pctRounded = Math.round(percentile);
+
   const description =
-    Math.round(percentile) <= 5
+    pctRounded <= 5
       ? "Casi todos lo hicieron mejor hoy"
-      : Math.round(percentile) >= 95
+      : pctRounded >= 95
         ? "Mejor que casi todos hoy"
-        : `Mejor que el ${Math.round(percentile)}% de jugadores hoy`;
+        : null;
 
   return (
     <motion.div
@@ -59,7 +61,7 @@ export function PercentileDisplay({ percentile, visible }: PercentileDisplayProp
       </div>
       {/* Description */}
       <p className="mt-2 text-center text-sm font-medium text-foreground/55">
-        {description}
+        {description ?? <>Mejor que el <span className="font-bold text-foreground/70">{pctRounded}%</span> de jugadores hoy</>}
       </p>
     </motion.div>
   );
