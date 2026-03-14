@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { useCountdown } from "@/hooks/useCountdown";
 import { motion } from "framer-motion";
 
@@ -7,87 +8,93 @@ interface CountdownProps {
   readonly visible: boolean;
 }
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 10, scale: 0.9 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
 export function Countdown({ visible }: CountdownProps) {
-  const { hours, minutes, seconds } = useCountdown();
+  const { hours, minutes } = useCountdown();
+  const [bellState, setBellState] = useState<
+    "idle" | "granted" | "denied"
+  >("idle");
 
-  const pad = (n: number) => n.toString().padStart(2, "0");
-  const segments = [
-    { value: pad(hours), label: "horas" },
-    { value: pad(minutes), label: "min" },
-    { value: pad(seconds), label: "seg" },
-  ];
+  const handleReminder = useCallback(async () => {
+    if (!("Notification" in window)) {
+      setBellState("denied");
+      return;
+    }
+
+    if (Notification.permission === "granted") {
+      scheduleReminder(hours, minutes);
+      setBellState("granted");
+      return;
+    }
+
+    if (Notification.permission === "denied") {
+      setBellState("denied");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      scheduleReminder(hours, minutes);
+      setBellState("granted");
+    } else {
+      setBellState("denied");
+    }
+  }, [hours, minutes]);
+
+  const label =
+    bellState === "granted"
+      ? "Te avisaremos"
+      : `Siguiente producto en ${hours}h ${minutes}min`;
 
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate={visible ? "show" : "hidden"}
-      className="flex flex-col items-center gap-3"
+    <motion.button
+      type="button"
+      onClick={bellState !== "granted" ? handleReminder : undefined}
+      initial={false}
+      animate={visible ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      className={`group flex items-center gap-1.5 text-xs transition-colors ${
+        bellState === "granted"
+          ? "text-foreground/45 cursor-default"
+          : "text-foreground/45 hover:text-foreground/70 cursor-pointer"
+      }`}
     >
-      <motion.div
-        variants={item}
-        className="flex items-center gap-1.5 text-foreground/50"
+      {/* Bell icon */}
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={
+          bellState === "granted"
+            ? "text-foreground/50"
+            : "text-foreground/35 group-hover:text-foreground/60 transition-colors"
+        }
       >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
-        </svg>
-        <span className="text-xs font-medium tracking-wide uppercase">
-          Siguiente producto en
-        </span>
-      </motion.div>
-
-      <div className="flex items-start gap-2">
-        {segments.map((seg, i) => (
-          <div key={seg.label} className="flex items-start gap-2">
-            {i > 0 && (
-              <motion.span
-                variants={item}
-                className="mt-2 text-lg font-light text-foreground/15"
-              >
-                :
-              </motion.span>
-            )}
-            <motion.div
-              variants={item}
-              className="flex flex-col items-center gap-1"
-            >
-              <div className="flex min-w-[3.25rem] items-center justify-center rounded-xl bg-surface px-3 py-2 shadow-sm ring-1 ring-foreground/[0.06]">
-                <span className="text-xl font-bold tabular-nums text-foreground">
-                  {seg.value}
-                </span>
-              </div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/50">
-                {seg.label}
-              </span>
-            </motion.div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        {bellState === "granted" && (
+          <line x1="1" y1="1" x2="23" y2="23" strokeWidth="1.5" />
+        )}
+      </svg>
+      {label}
+    </motion.button>
   );
+}
+
+function scheduleReminder(hours: number, minutes: number) {
+  const ms = (hours * 60 + minutes) * 60 * 1000;
+  if (ms <= 0) return;
+
+  setTimeout(() => {
+    if (Notification.permission === "granted") {
+      new Notification("Pricer", {
+        body: "Hay un nuevo producto listo para adivinar",
+        icon: "/icon-192.png",
+      });
+    }
+  }, ms);
 }

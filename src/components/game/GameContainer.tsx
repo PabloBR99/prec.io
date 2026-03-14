@@ -81,11 +81,9 @@ export function GameContainer({ serverProduct, serverDayNumber }: GameContainerP
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+    <div className="flex w-full flex-col items-center gap-10">
       <Header dayNumber={dayNumber} />
-      <motion.div variants={fadeInNoBlur} initial="hidden" animate="show" custom={0.1} className="w-full">
-        <ProductCard product={product} />
-      </motion.div>
+      <ProductCard product={product} />
 
       {phase === "playing" && (
         <>
@@ -99,7 +97,7 @@ export function GameContainer({ serverProduct, serverDayNumber }: GameContainerP
       )}
 
       {phase === "completed" && result && (
-        <ResultContainer result={result} date={currentDate} productCreatedAt={product.created_at} />
+        <ResultContainer result={result} date={currentDate} />
       )}
 
       {IS_DEV && <DevToolbar currentDate={devDate} onDateChange={setDevDate} />}

@@ -51,7 +51,7 @@ export function GuessForm({ onSubmit, isSubmitting }: GuessFormProps) {
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/60">
         ¿Cuánto cuesta?
       </p>
-      <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center gap-4 sm:gap-6">
         <StepperButton
           direction="down"
           priceRef={priceRef}
@@ -181,7 +181,7 @@ function StepperButton({ direction, priceRef, onChange, disabled }: StepperButto
       onContextMenu={(e) => e.preventDefault()}
       disabled={disabled}
       aria-label={direction === "up" ? "Subir precio" : "Bajar precio"}
-      className="flex h-11 w-11 shrink-0 touch-none select-none items-center justify-center rounded-full ring-1 ring-foreground/10 text-xl font-medium text-foreground/40 transition-all hover:bg-foreground/[0.06] hover:text-foreground/60 hover:ring-foreground/20 active:scale-90 active:bg-accent/10 active:text-accent active:ring-accent/30 disabled:pointer-events-none disabled:opacity-30"
+      className="flex h-11 w-11 shrink-0 touch-none select-none items-center justify-center rounded-full bg-accent/10 ring-1 ring-accent/20 text-xl font-medium text-accent/70 transition-all hover:bg-accent/15 hover:text-accent hover:ring-accent/30 active:scale-90 active:bg-accent/25 active:text-accent active:ring-accent/40 disabled:pointer-events-none disabled:opacity-30"
     >
       {direction === "up" ? "+" : "\u2212"}
     </button>

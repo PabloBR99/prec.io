@@ -50,17 +50,18 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           className="slider-input w-full"
           aria-label="Selector de precio"
         />
-        {/* Tick marks — offset by half thumb width (15px) to match native range behavior */}
-        <div className="pointer-events-none absolute top-[20px]" style={{ left: 15, right: 15 }}>
+        {/* Tick marks — offset by half thumb width (12px) to match native range behavior */}
+        <div className="pointer-events-none absolute top-[18px]" style={{ left: 12, right: 12 }}>
           {TICK_EUROS.map((euro) => {
-            const pct = (priceToPosition(euro) / INTERNAL_MAX) * 100;
+            const tickPct = (priceToPosition(euro) / INTERNAL_MAX) * 100;
+            const near = Math.abs(tickPct - percentage) < 3;
             return (
               <div
                 key={euro}
                 className="absolute flex flex-col items-center"
-                style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
+                style={{ left: `${tickPct}%`, transform: "translateX(-50%)" }}
               >
-                <div className="h-2.5 w-px bg-foreground/25" />
+                <div className="h-2.5 w-px bg-foreground/25 transition-opacity duration-150" style={{ opacity: near ? 0 : 1 }} />
                 <span className="mt-1 text-[10px] font-medium text-foreground/50">
                   {euro}€
                 </span>
@@ -73,8 +74,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
         .slider-input {
           -webkit-appearance: none;
           appearance: none;
-          height: 10px;
-          border-radius: 5px;
+          height: 6px;
+          border-radius: 3px;
           background: linear-gradient(
             to right,
             var(--color-accent) 0%,
@@ -92,8 +93,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
         .slider-input::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 30px;
-          height: 30px;
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
           background: var(--color-accent);
           border: 3px solid var(--color-surface);
@@ -108,8 +109,8 @@ export function PriceSlider({ value, onChange, disabled }: PriceSliderProps) {
           transform: scale(0.95);
         }
         .slider-input::-moz-range-thumb {
-          width: 30px;
-          height: 30px;
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
           background: var(--color-accent);
           border: 3px solid var(--color-surface);
